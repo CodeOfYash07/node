@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Fruit</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .input-field {
+            transition: all 0.3s ease;
+        }
+
+        .input-field:focus {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s ease;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        #imagePreview img {
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex items-center justify-center p-6">
+
+    <div class="w-full max-w-lg">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-white rounded-full shadow-xl mb-4">
+                <span class="text-4xl">✏️</span>
+            </div>
+            <h1 class="text-4xl font-bold text-white mb-2">Edit Fruit</h1>
+            <p class="text-purple-100 text-lg">Update product details</p>
+        </div>
+
+        <!-- Current Image Preview -->
+        <div class="flex justify-center mb-6">
+            <div class="relative">
+                <img src="<%= fruit.FruitImage %>" alt="<%= fruit.FruitName %>"
+                    class="w-32 h-32 rounded-2xl object-cover border-4 border-white shadow-2xl"
+                    onerror="this.src='https://via.placeholder.com/300/667eea/ffffff?text=No+Image'">
+                <div
+                    class="absolute -bottom-2 -right-2 bg-purple-600 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg">
+                    Current
+                </div>
+            </div>
+        </div>
+
+        <!-- Form Card -->
+        <div class="card rounded-3xl shadow-2xl p-8 border border-white/20">
+            <form action="/updateFruit" method="POST" class="space-y-6">
+
+                <input type="hidden" name="id" value="<%= fruit._id %>">
+
+                <!-- Fruit Name -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                        <span class="text-lg">🏷️</span>
+                        Fruit Name
+                    </label>
+                    <input type="text" name="FruitName" value="<%= fruit.FruitName %>" required
+                        class="input-field w-full px-4 py-3.5 bg-gray-50 border-2 border-gray-200 rounded-xl outline-none focus:border-purple-500 text-gray-800 font-medium"
+                        placeholder="e.g. Alphonso Mango">
+                </div>
+
+                <!-- Price -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                        <span class="text-lg">💰</span>
+                        Price (₹)
+                    </label>
+                    <div class="relative">
+                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-bold text-lg">₹</span>
+                        <input type="number" name="FruitPrice" value="<%= fruit.FruitPrice %>" required step="0.01"
+                            min="0"
+                            class="input-field w-full pl-10 pr-4 py-3.5 bg-gray-50 border-2 border-gray-200 rounded-xl outline-none focus:border-purple-500 text-gray-800 font-medium"
+                            placeholder="0.00">
+                    </div>
+                </div>
+
+                <!-- Image URL -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                        <span class="text-lg">🖼️</span>
+                        Image URL
+                    </label>
+                    <input type="url" name="FruitImage" value="<%= fruit.FruitImage %>" id="imageUrl" required
+                        class="input-field w-full px-4 py-3.5 bg-gray-50 border-2 border-gray-200 rounded-xl outline-none focus:border-purple-500 text-gray-800 font-medium"
+                        placeholder="https://example.com/fruit-image.jpg">
+                    <p class="text-xs text-gray-500 mt-2">Enter a new image URL to update</p>
+
+                    <!-- New Image Preview -->
+                    <div id="imagePreview" class="mt-4 hidden">
+                        <p class="text-xs font-semibold text-purple-600 mb-2">New Image Preview:</p>
+                        <div class="relative rounded-xl overflow-hidden border-2 border-purple-300 shadow-lg">
+                            <img id="preview" class="w-full h-56 object-cover" alt="New Preview">
+                            <div
+                                class="absolute top-2 left-2 bg-green-500 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg">
+                                New
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="space-y-3">
+                    <button type="submit"
+                        class="btn-submit w-full py-4 text-white font-bold rounded-xl shadow-lg flex items-center justify-center gap-2 text-lg">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        Update Fruit
+                    </button>
+
+                    <a href="/"
+                        class="block text-center text-purple-600 hover:text-purple-800 font-semibold transition-colors text-sm py-2">
+                        ← Cancel & Go Back
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const imageUrl = document.getElementById('imageUrl');
+        const imagePreview = document.getElementById('imagePreview');
+        const preview = document.getElementById('preview');
+        const originalUrl = imageUrl.value;
+
+        // Preview new image when URL is changed
+        imageUrl.addEventListener('input', function () {
+            const url = this.value.trim();
+
+            // Only show preview if URL is different from original
+            if (url && url !== originalUrl && isValidImageUrl(url)) {
+                preview.src = url;
+                preview.onerror = function () {
+                    imagePreview.classList.add('hidden');
+                };
+                preview.onload = function () {
+                    imagePreview.classList.remove('hidden');
+                };
+            } else {
+                imagePreview.classList.add('hidden');
+            }
+        });
+
+        function isValidImageUrl(url) {
+            return /\.(jpg|jpeg|png|webp|gif|svg)$/i.test(url) || url.includes('unsplash') || url.includes('pexels');
+        }
+    </script>
+</body>
+
+</html

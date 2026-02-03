@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display User</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+
+            background-color: #e0e5ec;
+            min-height: 100vh;
+            padding-top: 50px;
+            font-family: 'Montserrat', sans-serif;
+            color: #3d5a80;
+        }
+
+        .page-card {
+            background: #e0e5ec;
+            border-radius: 25px;
+            padding: 40px;
+            max-width: 1200px;
+            margin: auto;
+            box-shadow: 12px 12px 24px #a7aeb8,
+                -12px -12px 24px #ffffff;
+        }
+
+        h1 {
+            font-weight: 700;
+            color: #3d5a80;
+            margin-bottom: 40px !important;
+            border-bottom: 3px solid #bec6d3;
+            padding-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            text-shadow: 1px 1px 1px #ffffff;
+        }
+
+        .table {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: inset 8px 8px 16px #a7aeb8,
+                inset -8px -8px 16px #ffffff;
+            border: none;
+            background-color: #e0e5ec;
+        }
+
+        .table-dark thead {
+            background: #e0e5ec;
+            color: #3d5a80;
+            box-shadow: 2px 2px 5px #a7aeb8,
+                -2px -2px 5px #ffffff;
+        }
+
+        .table-dark th {
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 18px 15px;
+            border: none;
+        }
+
+        .table tbody tr {
+            background-color: #e0e5ec;
+        }
+
+        .table tbody tr:nth-child(even) {
+            background-color: #ebf0f5;
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: #d1d9e6;
+            transform: scale(0.99);
+            box-shadow: inset 1px 1px 3px #a7aeb8,
+                inset -1px -1px 3px #ffffff;
+            transition: all 0.2s ease-out;
+        }
+
+        .table td {
+            padding: 15px;
+            color: #4b6992;
+        }
+
+        .table td[colspan="8"] {
+            font-style: italic;
+            color: #7f8c8d;
+            padding: 30px;
+            box-shadow: none;
+        }
+
+        .badge-priority {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            display: inline-block;
+            min-width: 75px;
+            box-shadow: 3px 3px 6px #a7aeb8,
+                -3px -3px 6px #ffffff;
+        }
+
+        .high {
+            background-color: #ff6b6b;
+            color: white;
+            text-shadow: none;
+        }
+
+        .medium {
+            background-color: #ffa500;
+            color: white;
+            text-shadow: none;
+        }
+
+        .low {
+            background-color: #55efc4;
+            color: #3d5a80;
+            text-shadow: none;
+        }
+
+        .complete {
+            background-color: #00b894;
+            color: white;
+            text-shadow: none;
+        }
+
+        .pending {
+            background-color: #fdcb6e;
+            color: #3d5a80;
+            text-shadow: none;
+        }
+
+        .btn {
+            border-radius: 15px !important;
+            font-weight: 600;
+            padding: 10px 20px;
+            border: none;
+            transition: all 0.2s ease;
+            box-shadow: 4px 4px 8px #a7aeb8,
+                -4px -4px 8px #ffffff;
+        }
+
+        .btn-primary {
+            background-color: #3d5a80;
+            color: white;
+        }
+
+
+        .btn-danger {
+            background-color: #ff6b6b;
+            color: white;
+        }
+
+        .btn-success {
+            background-color: #98c1d9;
+            color: #3d5a80;
+            padding: 15px 40px;
+        }
+
+        .btn:hover {
+            box-shadow: 2px 2px 4px #a7aeb8,
+                -2px -2px 4px #ffffff;
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="page-card">
+        <h1 class="text-center mb-4">User List</h1>
+
+        <table class="table table-hover text-center align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Id</th>    
+                    <th>Task</th>
+                    <th>Assign Date</th>
+                    <th>Due Date</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <% if(allnum.length===0) { %>
+                    <tr>
+                        <td colspan="8" class="text-center">No Tasks Available</td>
+                    </tr>
+                    <% } else { %>
+                        <% allnum.map((task)=> { %>
+                            <tr>
+                                <td>
+                                    <%= task.Id %>
+                                </td>
+                                <td>
+                                    <%= task.Name %>
+                                </td>
+                                <td>
+                                    <%= task.AssignDate %>
+                                </td>
+                                <td>
+                                    <%= task.DueDate %>
+                                </td>
+
+                                <td>
+                                    <span class="badge-priority 
+                                <%= task.priority.toLowerCase() %>">
+                                        <%= task.priority %>
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span class="badge-priority
+                                <% if(task.status === 'complete'){ %>
+                                 complete <% }  else { %> pending<% } %>">
+                                        <%= task.status %>
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <a href="/deletenum?Id=<%= task.Id %>" class="btn btn-danger btn-sm">Delete</a>
+                                    <a href="/editPage?Id=<%= task.Id %>" class="btn btn-primary btn-sm">Edit</a>
+                                </td>
+                            </tr>
+                            <% }) %>
+                                <% } %>
+            </tbody>
+        </table>
+
+        <div class="text-center mt-3">
+            <a href="/viewdeta" class="btn btn-success px-4 py-2">
+                Add Task
+            </a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

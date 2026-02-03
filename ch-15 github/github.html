@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GitHub Dashboard Clone</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+    <style>
+        :root {
+            --bg-dark: #0d1117;
+            --bg-sidebar: #010409;
+            --border-color: #30363d;
+            --text-main: #c9d1d9;
+            --text-muted: #8b949e;
+            --btn-green: #238636;
+            --btn-green-hover: #2ea043;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            margin: 0;
+        }
+
+        /* --- Header --- */
+        .gh-header {
+            background-color: var(--bg-sidebar);
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-search {
+            background-color: #0d1117;
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            border-radius: 6px;
+            padding: 5px 12px;
+            width: 250px;
+            font-size: 13px;
+        }
+
+        .profile-trigger {
+            cursor: pointer;
+            position: relative;
+        }
+
+        .profile-pic-small {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+        }
+
+        /* --- User Dropdown Menu (Photo Menu) --- */
+        .gh-dropdown {
+            position: absolute;
+            top: 40px;
+            right: 0;
+            width: 280px;
+            background-color: #161b22;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            display: none;
+            flex-direction: column;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+
+        .gh-dropdown.show {
+            display: flex;
+        }
+
+        .dropdown-user-info {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .dropdown-link {
+            padding: 8px 16px;
+            color: var(--text-main);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dropdown-link:hover {
+            background-color: #21262d;
+            color: white;
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background-color: var(--border-color);
+            margin: 4px 0;
+        }
+
+        /* --- Sidebar --- */
+        .left-sidebar {
+            background-color: var(--bg-sidebar);
+            min-height: 100vh;
+            border-right: 1px solid var(--border-color);
+            padding: 24px;
+        }
+
+        .repo-search-input {
+            background-color: #0d1117;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            width: 100%;
+            padding: 5px 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+
+        .repo-list-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 0;
+            color: var(--text-main);
+            text-decoration: none;
+        }
+
+        /* --- Profile Styling --- */
+        .profile-img {
+            width: 100%;
+            max-width: 260px;
+            border-radius: 50%;
+            border: 1px solid var(--border-color);
+        }
+
+        .repo-card {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 16px;
+            height: 100%;
+        }
+
+        .repo-title {
+            color: #58a6ff;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .badge-public {
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 0 8px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* Contribution Grid */
+        .contribution-graph {
+            display: grid;
+            grid-template-columns: repeat(52, 1fr);
+            gap: 2px;
+        }
+
+        .day {
+            width: 10px;
+            height: 10px;
+            background: #161b22;
+            border-radius: 2px;
+        }
+
+        .day-low {
+            background: #0e4429;
+        }
+
+        .day-med {
+            background: #006d32;
+        }
+
+        .day-high {
+            background: #39d353;
+        }
+
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding: 40px 0;
+            margin-top: 40px;
+            font-size: 12px;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        footer a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="gh-header">
+        <div class="d-flex align-items-center gap-3" >
+            <i class="bi bi-list text-white" onclick="toggleDropdown()" style="font-size: 24px;"></i>
+            <i class="bi bi-github text-white" style="font-size: 32px;"></i>
+            <span style="font-weight: 600;">Dashboard</span>
+        </div>
+
+        <div class="d-flex align-items-center gap-3">
+            <div class="header-search d-none d-md-block">Type <kbd>/</kbd> to search</div>
+            <i class="bi bi-plus-lg text-white"></i>
+
+            <div class="profile-trigger" onclick="toggleDropdown()">
+                <img src="https://avatars.githubusercontent.com/u/211290036?v=4" class="profile-pic-small">
+
+                <div class="gh-dropdown" id="userMenu">
+                    <div class="dropdown-user-info">
+                        <div style="font-weight: 600;">CodeOfYash07</div>
+                        <div style="color: var(--text-muted); font-size: 12px;">yash khunt</div>
+                    </div>
+                    <a href="#" class="dropdown-link"><i class="bi bi-emoji-smile"></i> Set status</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-link"><i class="bi bi-person"></i> Profile</a>
+                    <a href="#" class="dropdown-link"><i class="bi bi-journal-bookmark"></i> Repositories</a>
+                    <a href="#" class="dropdown-link"><i class="bi bi-star"></i> Stars</a>
+                    <a href="#" class="dropdown-link"><i class="bi bi-gear"></i> Settings</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-link"><i class="bi bi-box-arrow-right"></i> Sign out</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container-fluid p-0">
+        <div class="row g-0">
+
+            <div class="col-md-3 left-sidebar d-none d-md-block">
+                <div class="d-flex justify-content-between mb-2">
+                    <h6 style="font-size: 14px;">Top repositories</h6>
+                    <button class="btn btn-success btn-sm py-0 px-2">New</button>
+                </div>
+                <input type="text" class="repo-search-input" placeholder="Find a repository...">
+                <div class="d-flex flex-column">
+                    <a href="#" class="repo-list-item"><img src="https://avatars.githubusercontent.com/u/211290036?v=4"
+                            class="profile-pic-small"> CodeOfYash07/CPP-with-DSA</a>
+                    <a href="#" class="repo-list-item"><img src="https://avatars.githubusercontent.com/u/211290036?v=4"
+                            class="profile-pic-small"> CodeOfYash07/node</a>
+                    <a href="#" class="repo-list-item"><img src="https://avatars.githubusercontent.com/u/211290036?v=4"
+                            class="profile-pic-small"> CodeOfYash07/exam</a>
+                </div>
+            </div>
+
+            <div class="col-md-9 p-4">
+                <div class="row">
+                    <div class="col-md-4 col-lg-3">
+                        <img src="https://avatars.githubusercontent.com/u/211290036?v=4" class="profile-img mb-3">
+                        <h1 class="h4 mb-0">yash khunt</h1>
+                        <p class="text-secondary fs-5">CodeOfYash07</p>
+                        <button class="btn btn-secondary btn-sm w-100 mb-3"
+                            style="background:#21262d; border-color:#30363d;">Edit profile</button>
+                        <div class="small text-secondary mb-3">
+                            <i class="bi bi-people"></i> <b>1</b> follower &bull; <b>2</b> following
+                        </div>
+                        <div class="small">
+                            <div><i class="bi bi-envelope"></i> yashkhunt128@gmail.com</div>
+                            <div class="mt-1"><i class="bi bi-link-45deg"></i> <a href="#"
+                                    class="text-white text-decoration-none">linkedin.com/feed/</a></div>
+                            <div class="mt-1"><i class="bi bi-instagram"></i> fame_radhe</div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-8 col-lg-9">
+                        <h6 class="mb-3">Popular repositories</h6>
+                        <div class="row g-3 mb-5">
+                            <div class="col-md-6">
+                                <div class="repo-card"><a href="#" class="repo-title">exam</a> <span
+                                        class="badge-public float-end">Public</span>
+                                    <div class="mt-2 small text-secondary">● HTML</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="repo-card"><a href="#" class="repo-title">CPP-with-DSA</a> <span
+                                        class="badge-public float-end">Public</span>
+                                    <div class="mt-2 small text-secondary">● TypeScript</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="repo-card"><a href="#" class="repo-title">web-to-maxdot</a> <span
+                                        class="badge-public float-end">Public</span>
+                                    <div class="mt-2 small text-secondary">● HTML</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="repo-card"><a href="#" class="repo-title">Dsa-final-project</a> <span
+                                        class="badge-public float-end">Public</span>
+                                    <div class="mt-2 small text-secondary">● C++</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h6 class="mb-3">31 contributions in the last year</h6>
+                        <div class="card p-3" style="background:transparent; border:1px solid #30363d;">
+                            <div class="contribution-graph">
+                                <script>
+                                    for (let i = 0; i < 364; i++) {
+                                        let level = Math.random();
+                                        let cls = 'day';
+                                        if (level > 0.9) cls += ' day-high';
+                                        else if (level > 0.8) cls += ' day-med';
+                                        else if (level > 0.7) cls += ' day-low';
+                                        document.write(`<div class="${cls}"></div>`);
+                                    }
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <footer>
+                    <div class="mb-2">
+                        <i class="bi bi-github me-2"></i> © 2026 GitHub, Inc.
+                        <a href="#">Terms</a><a href="#">Privacy</a><a href="#">Security</a><a href="#">Status</a><a
+                            href="#">Docs</a>
+                    </div>
+                    <a href="#">Do not share my personal information</a>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleDropdown() {
+            document.getElementById('userMenu').classList.toggle('show');
+        }
+        window.onclick = function (e) {
+            if (!e.target.matches('.profile-pic-small')) {
+                var dropdown = document.getElementById('userMenu');
+                if (dropdown.classList.contains('show')) dropdown.classList.remove('show');
+            }
+        }
+    </script>
+</body>
+
+</html>
+<!-- <main class="col-md-9 col-lg-10 main">
+        
+        <div class="row mb-5">
+            <div class="col-md-12 d-flex align-items-center gap-4">
+                <img src="https://avatars.githubusercontent.com/u/583231?v=4" alt="Profile" class="profile-img shadow" />
+                <div>
+                    <h1 class="h3 mb-0">The Octocat</h1>
+                    <p class="text-secondary mb-2">@octocat</p>
+                    <div class="d-flex gap-2 text-secondary small mb-3">
+                        <span><i class="bi bi-people"></i> <b>12.5k</b> followers</span>
+                        <span>&bull;</span>
+                        <span><b>200</b> following</span>
+                    </div>
+                </div>
+                <div class="ms-auto">
+                    <button class="btn btn-github btn-sm px-3">Follow</button>
+                </div>
+            </div>
+        </div>
+
+        <h5 class="mb-3">Popular Repositories</h5>
+        <div class="row mb-5">
+            <div class="col-md-6 mb-3">
+                <div class="card p-3" style="background: #0d1117; border: 1px solid #30363d;">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <a href="#" class="repo-title">Hello-World</a>
+                        <span class="badge-public">Public</span>
+                    </div>
+                    <p class="small text-secondary mb-3">My first repository on GitHub! Usually contains a simple hello world script.</p>
+                    <div class="d-flex align-items-center small text-secondary">
+                        <span class="me-3"><span class="lang-circle js-color"></span>JavaScript</span>
+                        <span class="me-3"><i class="bi bi-star me-1"></i> 1.2k</span>
+                        <span class="me-3"><i class="bi bi-diagram-2 me-1"></i> 340</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <div class="card p-3" style="background: #0d1117; border: 1px solid #30363d;">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <a href="#" class="repo-title">Spoon-Knife</a>
+                        <span class="badge-public">Public</span>
+                    </div>
+                    <p class="small text-secondary mb-3">This repository is for forking and educational purposes.</p>
+                    <div class="d-flex align-items-center small text-secondary">
+                        <span class="me-3"><span class="lang-circle html-color"></span>HTML</span>
+                        <span class="me-3"><i class="bi bi-star me-1"></i> 850</span>
+                        <span class="me-3"><i class="bi bi-diagram-2 me-1"></i> 12k</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h5 class="mb-3">1,234 contributions in the last year</h5>
+        <div class="card p-3 mb-4" style="background: #0d1117; border: 1px solid #30363d; overflow: hidden;">
+            <div class="contribution-graph">
+                <script>
+                    for(let i=0; i<364; i++){
+                        let level = Math.random();
+                        let cls = 'day';
+                        if(level > 0.85) cls += ' day-high';
+                        else if(level > 0.6) cls += ' day-med';
+                        else if(level > 0.4) cls += ' day-low';
+                        document.write(`<div class="${cls}"></div>`);
+                    }
+                </script>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mt-2 small text-secondary">
+               <span>Learn how we count contributions</span>
+               <div class="d-flex align-items-center gap-1">
+                   <span>Less</span>
+                   <div class="day"></div>
+                   <div class="day day-low"></div>
+                   <div class="day day-med"></div>
+                   <div class="day day-high"></div>
+                   <span>More</span>
+               </div>
+            </div>
+        </div>
+      </main> -->

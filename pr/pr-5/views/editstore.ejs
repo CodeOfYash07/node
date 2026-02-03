@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+
+<div class="bg-white shadow">
+    <div class="max-w-4xl mx-auto px-4 py-4 flex items-center gap-4">
+        <a href="/" class="text-blue-600 text-lg">←</a>
+        <h1 class="text-xl font-bold">Edit App</h1>
+    </div>
+</div>
+
+<div class="max-w-4xl mx-auto px-4 py-8">
+
+<form action="/updatestore" method="POST" enctype="multipart/form-data"
+      class="bg-white rounded-3xl shadow p-6 md:p-8 space-y-6">
+
+    <!-- 🔴 REQUIRED -->
+    <input type="hidden" name="id" value="<%= store._id %>">
+
+    <!-- 🔴 REQUIRED: Image -->
+    <input type="hidden" name="storeImage" value="<%= store.storeImage %>">
+
+    <!-- App Icon Preview -->
+    <div class="flex items-center gap-6">
+        <img id="preview"
+             src="/uploads/<%= store.storeImage %>"
+             class="w-24 h-24 rounded-2xl object-cover border">
+
+        <div class="flex-1">
+            <label class="block text-sm font-semibold mb-2">App Icon URL</label>
+            <input type="file"
+                    name="storeImage"
+                   value="<%= store.storeImage %>"
+                   class="w-full px-4 py-3 border rounded-xl"
+                   oninput="document.getElementById('preview').src=this.value;
+                            document.getElementsByName('storeImage')[0].value=this.value;">
+        </div>
+    </div>
+
+    <!-- 🔴 REQUIRED: Name -->
+    <div>
+        <label class="block text-sm font-semibold mb-2">App Name</label>
+        <input type="text"
+               name="storeName"
+               value="<%= store.storeName %>"
+               required
+               class="w-full px-4 py-3 border rounded-xl">
+    </div>
+
+    <!-- 🔴 REQUIRED: Price (FORCED) -->
+    <div>
+        <label class="block text-sm font-semibold mb-2">Price</label>
+        <input type="number"
+               name="storePrice"
+               value="<%= store.storePrice || 0 %>"
+               required
+               class="w-full px-4 py-3 border rounded-xl">
+    </div>
+
+    <!-- Buttons -->
+    <div class="flex gap-4 pt-4">
+        <button type="submit"
+                class="flex-1 bg-blue-600 text-white py-3 rounded-full font-semibold">
+            Update App
+        </button>
+
+        <a href="/"
+           class="flex-1 bg-gray-200 text-gray-700 py-3 rounded-full font-semibold text-center">
+            Cancel
+        </a>
+    </div>
+
+</form>
+
+</div>
+</body>
+</html>

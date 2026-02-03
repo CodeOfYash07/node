@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Fruit Inventory Dashboard</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .header-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .btn-add {
+            transition: all 0.3s ease;
+        }
+
+        .btn-add:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .fruit-row {
+            transition: all 0.2s ease;
+        }
+
+        .fruit-row:hover {
+            transform: scale(1.01);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .fruit-img {
+            transition: transform 0.3s ease;
+        }
+
+        .fruit-row:hover .fruit-img {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+
+<body class="p-6">
+
+    <div class="container mx-auto max-w-6xl">
+
+        <!-- Header Card -->
+        <div class="header-card rounded-3xl shadow-2xl p-8 mb-8 border border-white/20">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div class="flex items-center gap-4">
+                    <div class="bg-white rounded-full p-4 shadow-lg">
+                        <span class="text-5xl">🍎</span>
+                    </div>
+                    <div>
+                        <h1 class="text-4xl font-bold text-white mb-1">Fruit Inventory</h1>
+                        <p class="text-purple-100 text-lg">Manage your fresh products</p>
+                    </div>
+                </div>
+                <div class="d-flex align-item-center justify-content-center">
+                    <p
+                        class="btn-add inline-flex items-center justify-center gap-2 px-6 py-4 bg-white text-purple-600 font-bold rounded-xl shadow-lg hover:shadow-xl text-lg"><%= allFruits.length %> Fruits%>
+                    </p>
+                    <a href="/AddFruit"
+                        class="btn-add mb-0 inline-flex items-center justify-center gap-2 px-6 py-4 bg-white text-purple-600 font-bold rounded-xl shadow-lg hover:shadow-xl text-lg">
+                        <!-- <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                        </svg> -->
+                        Add New Fruit
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fruits Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <% allFruits.forEach(fruit=> { %>
+                <div class="fruit-row card rounded-2xl shadow-xl p-6 border border-white/20">
+                    <!-- Image -->
+                    <div class="mb-4 overflow-hidden rounded-xl bg-gradient-to-br from-purple-50 to-pink-50">
+                        <img src="<%= fruit.FruitImage %>" alt="<%= fruit.FruitName %>"
+                            class="fruit-img w-full h-48 object-cover"
+                            onerror="this.src='https://via.placeholder.com/400x300/667eea/ffffff?text=No+Image'">
+                    </div>
+
+                    <!-- Info -->
+                    <div class="mb-4">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">
+                            <%= fruit.FruitName %>
+                        </h3>
+                        <div class="flex items-baseline gap-1">
+                            <span class="text-3xl font-bold text-purple-600">₹<%= fruit.FruitPrice %></span>
+                            <span class="text-gray-500 text-sm">/ kg</span>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="flex gap-3">
+                        <a href="/EditFruit/<%= fruit._id %>"
+                            class="flex-1 py-3 bg-gradient-to-r from-blue-500 to-indigo-500 text-white font-semibold rounded-xl hover:from-blue-600 hover:to-indigo-600 transition-all text-center shadow-md">
+                            ✏️ Edit
+                        </a>
+                        <a href="/DeleteFruit?id=<%= fruit._id %>"
+                            class="flex-1 py-3 bg-gradient-to-r from-red-500 to-pink-500 text-white font-semibold rounded-xl hover:from-red-600 hover:to-pink-600 transition-all text-center shadow-md"
+                            onclick="return confirm('Are you sure you want to delete <%= fruit.FruitName %>?')">
+                            🗑️ Delete
+                        </a>
+                    </div>
+                </div>
+                <% }) %>
+        </div>
+
+        <!-- Empty State -->
+        <% if (allFruits.length===0) { %>
+            <div class="card rounded-2xl shadow-xl p-12 text-center border border-white/20">
+                <div class="mb-6">
+                    <span class="text-8xl">🍏</span>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-800 mb-2">No Fruits Added Yet</h3>
+                <p class="text-gray-500 mb-6">Start by adding your first fruit to the inventory</p>
+                <a href="/AddFruit"
+                    class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-500 text-white font-semibold rounded-xl hover:from-purple-600 hover:to-indigo-600 transition-all shadow-lg">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                    </svg>
+                    Add Your First Fruit
+                </a>
+            </div>
+            <% } %>
+
+    </div>
+
+</body>
+
+</html>

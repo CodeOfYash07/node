@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+
+<!-- Top Bar -->
+<div class="bg-white shadow">
+    <div class="max-w-4xl mx-auto px-4 py-4 flex items-center gap-4">
+        <a href="/" class="text-blue-600 text-lg">←</a>
+        <h1 class="text-xl font-bold">Add App</h1>
+    </div>
+</div>
+
+<div class="max-w-4xl mx-auto px-4 py-8">
+
+    <form action="/addstore" method="POST" enctype="multipart/form-data"
+          class="bg-white rounded-3xl shadow p-6 md:p-8 space-y-6">
+
+        <!-- App Icon -->
+        <div class="flex items-center gap-6">
+            <img id="preview"
+                 class="w-24 h-24 rounded-2xl object-cover border"
+                 src="https://via.placeholder.com/200">
+
+            <div class="flex-1">
+                <label class="block text-sm font-semibold mb-2">
+                    App Icon URL
+                </label>
+                <input type="file" name="storeImage" id="image" required
+                       class="w-full px-4 py-3 border rounded-xl outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+        </div>
+
+        <!-- App Name -->
+        <div>
+            <label class="block text-sm font-semibold mb-2">
+                App Name
+            </label>
+            <input type="text" name="storeName" id="name" required
+                   class="w-full px-4 py-3 border rounded-xl outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+
+        <!-- Price -->
+        <div>
+            <label class="block text-sm font-semibold mb-2">
+                Price
+            </label>
+            <input type="number" name="storePrice" value="0" required
+                   class="w-full px-4 py-3 border rounded-xl outline-none focus:ring-2 focus:ring-blue-500">
+            <p class="text-xs text-gray-400 mt-1">Keep 0 for free apps</p>
+        </div>
+
+        <!-- Buttons -->
+        <div class="flex gap-4 pt-4">
+            <button type="submit"
+                class="flex-1 bg-blue-600 text-white py-3 rounded-full font-semibold">
+                Publish App
+            </button>
+
+            <a href="/"
+               class="flex-1 bg-gray-200 text-gray-700 py-3 rounded-full font-semibold text-center">
+                Cancel
+            </a>
+        </div>
+
+    </form>
+
+</div>
+
+<script>
+    // Auto-fill from GET button
+    const params = new URLSearchParams(window.location.search);
+    const name = params.get("name");
+    const image = params.get("image");
+
+    if (name) document.getElementById("name").value = name;
+    if (image) {
+        document.getElementById("image").value = image;
+        document.getElementById("preview").src = image;
+    }
+
+    document.getElementById("image").addEventListener("input", e => {
+        document.getElementById("preview").src = e.target.value;
+    });
+</script>
+
+</body>
+</html>

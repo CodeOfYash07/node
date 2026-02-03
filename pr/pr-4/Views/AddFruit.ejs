@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Fruit</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .input-field {
+            transition: all 0.3s ease;
+        }
+
+        .input-field:focus {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s ease;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        #imagePreview img {
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex items-center justify-center p-6">
+
+    <div class="w-full max-w-lg">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-white rounded-full shadow-xl mb-4">
+                <span class="text-4xl">🍎</span>
+            </div>
+            <h1 class="text-4xl font-bold text-white mb-2">Add Fresh Fruit</h1>
+            <p class="text-purple-100 text-lg">Fill the details to add new product</p>
+        </div>
+
+        <!-- Form Card -->
+        <div class="card rounded-3xl shadow-2xl p-8 border border-white/20">
+            <form action="/addFruit" method="POST" class="space-y-6">
+
+                <!-- Fruit Name -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                        <span class="text-lg">🏷️</span>
+                        Fruit Name
+                    </label>
+                    <input type="text" name="FruitName" required
+                        class="input-field w-full px-4 py-3.5 bg-gray-50 border-2 border-gray-200 rounded-xl outline-none focus:border-purple-500 text-gray-800 font-medium"
+                        placeholder="e.g. Alphonso Mango">
+                </div>
+
+                <!-- Price -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                        <span class="text-lg">💰</span>
+                        Price (₹)
+                    </label>
+                    <div class="relative">
+                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-bold text-lg">₹</span>
+                        <input type="number" name="FruitPrice" required step="0.01" min="0"
+                            class="input-field w-full pl-10 pr-4 py-3.5 bg-gray-50 border-2 border-gray-200 rounded-xl outline-none focus:border-purple-500 text-gray-800 font-medium"
+                            placeholder="0.00">
+                    </div>
+                </div>
+
+                <!-- Image URL -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                        <span class="text-lg">🖼️</span>
+                        Image URL
+                    </label>
+                    <input type="url" name="FruitImage" id="imageUrl" required
+                        class="input-field w-full px-4 py-3.5 bg-gray-50 border-2 border-gray-200 rounded-xl outline-none focus:border-purple-500 text-gray-800 font-medium"
+                        placeholder="https://example.com/fruit-image.jpg">
+                    <p class="text-xs text-gray-500 mt-2">Enter a valid image URL (jpg, png, webp)</p>
+
+                    <!-- Image Preview -->
+                    <div id="imagePreview" class="mt-4 hidden">
+                        <div class="relative rounded-xl overflow-hidden border-2 border-gray-200 shadow-lg">
+                            <img id="preview" class="w-full h-56 object-cover" alt="Preview">
+                            <div class="absolute top-2 right-2">
+                                <button type="button" onclick="clearPreview()"
+                                    class="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 shadow-lg transition-all">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit"
+                    class="btn-submit w-full py-4 text-white font-bold rounded-xl shadow-lg flex items-center justify-center gap-2 text-lg">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Add Fruit to Stock
+                </button>
+
+                <!-- Back Link -->
+                <a href="/"
+                    class="block text-center text-purple-600 hover:text-purple-800 font-semibold transition-colors text-sm">
+                    ← Back to All Fruits
+                </a>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const imageUrl = document.getElementById('imageUrl');
+        const imagePreview = document.getElementById('imagePreview');
+        const preview = document.getElementById('preview');
+
+        // Preview image when URL is entered
+        imageUrl.addEventListener('input', function () {
+            const url = this.value.trim();
+
+            if (url && isValidImageUrl(url)) {
+                preview.src = url;
+                preview.onerror = function () {
+                    imagePreview.classList.add('hidden');
+                };
+                preview.onload = function () {
+                    imagePreview.classList.remove('hidden');
+                };
+            } else {
+                imagePreview.classList.add('hidden');
+            }
+        });
+
+        function isValidImageUrl(url) {
+            return /\.(jpg|jpeg|png|webp|gif|svg)$/i.test(url) || url.includes('unsplash') || url.includes('pexels');
+        }
+
+        function clearPreview() {
+            imageUrl.value = '';
+            imagePreview.classList.add('hidden');
+        }
+    </script>
+</body>
+
+</html>
