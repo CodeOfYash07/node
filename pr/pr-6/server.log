@@ -1,0 +1,27 @@
+
+> pr-6@1.0.0 start
+> nodemon servar.js
+
+[33m[nodemon] 3.1.11[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching path(s): *.*[39m
+[33m[nodemon] watching extensions: js,mjs,cjs,json[39m
+[32m[nodemon] starting `node servar.js`[39m
+Server is not started...🥳 Error: listen EADDRINUSE: address already in use :::2345
+    at Server.setupListenHandle [as _listen2] (node:net:1939:16)
+    at listenInCluster (node:net:1996:12)
+    at Server.listen (node:net:2101:7)
+    at Function.listen (/Users/yash/JioCloud/JioCloud/node/pr/pr-6/node_modules/express/lib/application.js:605:24)
+    at Object.<anonymous> (/Users/yash/JioCloud/JioCloud/node/pr/pr-6/servar.js:35:5)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14) {
+  code: 'EADDRINUSE',
+  errno: -48,
+  syscall: 'listen',
+  address: '::',
+  port: 2345
+}
+DB is connected...

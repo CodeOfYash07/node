@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>DeskApp - Forgot Password</title>
+
+	<link rel="apple-touch-icon" sizes="180x180" href="vendors/images/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="vendors/images/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="vendors/images/favicon-16x16.png">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"
+		rel="stylesheet">
+	<link rel="stylesheet" href="vendors/styles/core.css">
+	<link rel="stylesheet" href="vendors/styles/icon-font.min.css">
+	<link rel="stylesheet" href="vendors/styles/style.css">
+</head>
+
+<body>
+
+	<div class="login-header box-shadow">
+		<div class="container-fluid d-flex justify-content-between align-items-center">
+			<div class="brand-logo">
+				<img src="vendors/images/deskapp-logo.svg">
+			</div>
+		</div>
+	</div>
+
+	<div class="login-wrap d-flex align-items-center justify-content-center">
+		<div class="container">
+			<div class="row align-items-center">
+
+				<div class="col-md-6">
+					<img src="vendors/images/forgot-password.png">
+				</div>
+
+				<div class="col-md-6">
+					<div class="login-box bg-white box-shadow border-radius-10 p-4">
+
+						<div class="login-title">
+							<h2 class="text-center text-primary">Forgot Password</h2>
+						</div>
+
+						<!-- ================= EMAIL FORM ================= -->
+						<form id="emailForm" method="post" action="/verify-email">
+							<h6 class="mb-20">Enter your email</h6>
+
+							<div class="input-group mb-3">
+								<span class="input-group-text bg-primary text-white">
+									<i class="ti-email"></i>
+								</span>
+								<input type="email" class="form-control form-control-lg"
+									name="email" placeholder="Email Address" required>
+							</div>
+
+							<button class="btn btn-primary btn-block" type="submit">
+								Send OTP
+							</button>
+						</form>
+
+						<!-- ================= OTP FORM ================= -->
+						<form id="otpForm" method="post" action="/otp-verify" style="display:none;">
+							<h6 class="mb-20">Enter OTP</h6>
+
+							<div class="input-group mb-3">
+								<span class="input-group-text bg-success text-white">
+									<i class="ti-lock"></i>
+								</span>
+								<input type="number" class="form-control form-control-lg"
+									name="adminOTP" placeholder="Enter OTP" required>
+							</div>
+
+							<button class="btn btn-success btn-block" type="submit">
+								Verify OTP
+							</button>
+						</form>
+
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<!-- JS -->
+	<script src="vendors/scripts/core.js"></script>
+	<script src="vendors/scripts/script.min.js"></script>
+
+	<script>
+		// IF OTP COOKIE EXISTS → SHOW OTP FORM
+		document.addEventListener("DOMContentLoaded", () => {
+			if (document.cookie.includes("OTP")) {
+				document.getElementById("emailForm").style.display = "none";
+				document.getElementById("otpForm").style.display = "block";
+			}
+		});
+	</script>
+
+</body>
+
+</html>

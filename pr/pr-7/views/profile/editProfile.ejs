@@ -1,0 +1,149 @@
+<%- include('../header') %>
+
+<div class="container" style="margin-top:150px;">
+    <div class="card shadow-lg">
+        <div class="card-body">
+
+            <h4 class="card-title mb-4 text-primary">Edit My Profile</h4>
+
+            <form method="post" action="/updateProfile" enctype="multipart/form-data">
+
+                <!-- First Name -->
+                <div class="row mb-3">
+                    <label class="col-sm-3 col-form-label text-end">First Name</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" name="fname"
+                            value="<%= admin.fname %>" required>
+                    </div>
+                </div>
+
+                <!-- Last Name -->
+                <div class="row mb-3">
+                    <label class="col-sm-3 col-form-label text-end">Last Name</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" name="lname"
+                            value="<%= admin.lname %>" required>
+                    </div>
+                </div>
+
+                <!-- Email -->
+                <div class="row mb-3">
+                    <label class="col-sm-3 col-form-label text-end">Email</label>
+                    <div class="col-sm-9">
+                        <input type="email" class="form-control" name="email"
+                            value="<%= admin.email %>" required>
+                    </div>
+                </div>
+
+                <!-- Contact -->
+                <div class="row mb-3">
+                    <label class="col-sm-3 col-form-label text-end">Contact</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" name="contact"
+                            value="<%= admin.contact %>">
+                    </div>
+                </div>
+
+                <!-- Gender -->
+                <div class="row mb-3">
+                    <label class="col-sm-3 col-form-label text-end">Gender</label>
+                    <div class="col-sm-9">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="gender" value="Male"
+                                <%= admin.gender === 'Male' ? 'checked' : '' %>>
+                            <label class="form-check-label">Male</label>
+                        </div>
+
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="gender" value="Female"
+                                <%= admin.gender === 'Female' ? 'checked' : '' %>>
+                            <label class="form-check-label">Female</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hobby -->
+                <div class="row mb-3">
+                    <label class="col-sm-3 col-form-label text-end">Hobby</label>
+                    <div class="col-sm-9">
+                        <% ["Reading","Playing","Other"].forEach((hobby,i)=>{ %>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="hobby[]"
+                                    value="<%= hobby %>"
+                                    <%= admin.hobby.includes(hobby) ? 'checked' : '' %>>
+                                <label class="form-check-label"><%= hobby %></label>
+                            </div>
+                        <% }) %>
+                    </div>
+                </div>
+
+                <!-- City -->
+                <div class="row mb-3">
+                    <label class="col-sm-3 col-form-label text-end">City</label>
+                    <div class="col-sm-9">
+                        <select class="form-select" name="city">
+                            <% const cities = [ "Ahmedabad"
+                                            ,"Surat","Vadodara","Rajkot","Bhavnagar","Jamnagar","Junagadh","Navsari","Anand","Gandhinagar", "Mumbai"
+                                            ,"Pune","Nagpur","Nashik","Aurangabad","Thane","Solapur","Kolhapur","Amravati", "Jaipur"
+                                            ,"Jodhpur","Udaipur","Kota","Ajmer","Bikaner","Alwar", "New Delhi"
+                                            ,"Lucknow"
+                                            ,"Kanpur","Varanasi","Agra","Noida","Ghaziabad","Meerut","Prayagraj","Gorakhpur", "Bhopal"
+                                            ,"Indore","Jabalpur","Gwalior","Ujjain","Sagar", "Bengaluru"
+                                            ,"Mysuru","Mangaluru","Hubli","Belagavi","Davanagere", "Chennai"
+                                            ,"Coimbatore","Madurai","Salem","Tiruchirappalli","Erode","Vellore", "Hyderabad"
+                                            ,"Warangal","Nizamabad","Karimnagar", "Visakhapatnam"
+                                            ,"Vijayawada","Guntur","Nellore","Tirupati","Kurnool", "Kochi"
+                                            ,"Thiruvananthapuram","Kozhikode","Thrissur","Alappuzha", "Kolkata"
+                                            ,"Howrah","Durgapur","Asansol","Siliguri", "Chandigarh"
+                                            ,"Ludhiana","Amritsar","Jalandhar","Patiala", "Gurugram"
+                                            ,"Faridabad","Panipat","Ambala","Hisar", "Patna"
+                                            ,"Gaya","Bhagalpur","Muzaffarpur", "Ranchi"
+                                            ,"Jamshedpur","Dhanbad", "Bhubaneswar"
+                                            ,"Cuttack","Rourkela","Sambalpur", "Guwahati"
+                                            ,"Dibrugarh","Silchar","Jorhat", "Raipur"
+                                            ,"Bilaspur","Durg","Bhilai", "Shimla" ,"Manali","Dharamshala", "Dehradun"
+                                            ,"Haridwar","Roorkee","Nainital", "Srinagar" ,"Jammu", "Panaji"
+                                            ,"Margao","Vasco da Gama", "Imphal"
+                                            ,"Aizawl","Shillong","Agartala","Kohima","Itanagar", "Puducherry"
+                                            ,"PortBlair","Daman","Silvassa","Kavaratti","Leh" ];
+                            %>
+                            <option value="">Select City</option>
+                            <% cities.forEach(city => { %>
+                                <option value="<%= city %>"
+                                    <%= admin.city === city ? 'selected' : '' %>>
+                                    <%= city %>
+                                </option>
+                            <% }) %>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- About -->
+                <div class="row mb-3">
+                    <label class="col-sm-3 col-form-label text-end">About</label>
+                    <div class="col-sm-9">
+                        <textarea class="form-control" name="about" rows="3"><%= admin.about %></textarea>
+                    </div>
+                </div>
+
+                <!-- Profile Image -->
+                <div class="row mb-4">
+                    <label class="col-sm-3 col-form-label text-end">Profile Image</label>
+                    <div class="col-sm-9">
+                        <img src="<%= admin.profileimg %>" height="60" class="rounded mb-2">
+                        <input type="file" name="profileimg" class="form-control">
+                    </div>
+                </div>
+
+                <!-- Submit -->
+                <div class="text-end">
+                    <a href="/profile" class="btn btn-secondary px-4 me-2">Cancel</a>
+                    <button type="submit" class="btn btn-primary px-4">Update Profile</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<%- include('../footer') %>
