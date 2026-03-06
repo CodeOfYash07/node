@@ -8,7 +8,7 @@ module.exports.loginPage = async (req, res) => {
         // If user is already logged in, redirect to dashboard
         if (req.isAuthenticated()) {
             return res.redirect('/dashboard');
-    }
+        }
 
         return res.render('auth/login');
     } catch (err) {
@@ -190,7 +190,7 @@ module.exports.verifyEmail = async (req, res) => {
             service: "gmail",
             auth: {
                 user: "yashkhunt128@gmail.com",
-                pass: "critopkmrqjkannw"
+                pass: "tchtdvdwfiumfppr"
             }
         });
 

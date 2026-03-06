@@ -1,0 +1,594 @@
+<%- include('header') %>
+    <style>
+        /* .action-cell {
+            position: relative;
+        } */
+
+        .action-menu {
+            position: relative;
+            display: inline-block;
+        }
+
+        .action-btn {
+            font-size: 20px;
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+
+        .table-responsive {
+            overflow: visible !important;
+        }
+
+        .action-btn:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .action-dropdown {
+            position: absolute;
+            right: 0;
+            top: 36px;
+            background: #121212;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            min-width: 120px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+            opacity: 0;
+            transform: scale(0.9);
+            pointer-events: none;
+            transition: 0.25s ease;
+            z-index: 1000;
+        }
+
+        .action-dropdown button {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: white;
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            z-index: 999 !important;
+        }
+
+        .action-dropdown button:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .action-menu.active .action-dropdown {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+    </style>
+    <div class="main">
+        <nav class="navbar navbar-expand navbar-light navbar-bg">
+            <a class="sidebar-toggle js-sidebar-toggle">
+                <i class="hamburger align-self-center"></i>
+            </a>
+
+            <div class="navbar-collapse collapse">
+                <ul class="navbar-nav navbar-align">
+                    <li class="nav-item dropdown">
+                        <a class="nav-icon dropdown-toggle" href="#" id="alertsDropdown" data-bs-toggle="dropdown">
+                            <div class="position-relative">
+                                <i class="align-middle" data-feather="bell"></i>
+                                <span class="indicator">4</span>
+                            </div>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0"
+                            aria-labelledby="alertsDropdown">
+                            <div class="dropdown-menu-header">
+                                4 New Notifications
+                            </div>
+                            <div class="list-group">
+                                <a href="#" class="list-group-item">
+                                    <div class="row g-0 align-items-center">
+                                        <div class="col-2">
+                                            <i class="text-danger" data-feather="alert-circle"></i>
+                                        </div>
+                                        <div class="col-10">
+                                            <div class="text-dark">Update completed</div>
+                                            <div class="text-muted small mt-1">Restart server 12 to complete the update.
+                                            </div>
+                                            <div class="text-muted small mt-1">30m ago</div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <div class="row g-0 align-items-center">
+                                        <div class="col-2">
+                                            <i class="text-warning" data-feather="bell"></i>
+                                        </div>
+                                        <div class="col-10">
+                                            <div class="text-dark">Lorem ipsum</div>
+                                            <div class="text-muted small mt-1">Aliquam ex eros, imperdiet vulputate
+                                                hendrerit et.</div>
+                                            <div class="text-muted small mt-1">2h ago</div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <div class="row g-0 align-items-center">
+                                        <div class="col-2">
+                                            <i class="text-primary" data-feather="home"></i>
+                                        </div>
+                                        <div class="col-10">
+                                            <div class="text-dark">Login from 192.186.1.8</div>
+                                            <div class="text-muted small mt-1">5h ago</div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <div class="row g-0 align-items-center">
+                                        <div class="col-2">
+                                            <i class="text-success" data-feather="user-plus"></i>
+                                        </div>
+                                        <div class="col-10">
+                                            <div class="text-dark">New connection</div>
+                                            <div class="text-muted small mt-1">Christina accepted your request.</div>
+                                            <div class="text-muted small mt-1">14h ago</div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="dropdown-menu-footer">
+                                <a href="#" class="text-muted">Show all notifications</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-icon dropdown-toggle" href="#" id="messagesDropdown" data-bs-toggle="dropdown">
+                            <div class="position-relative">
+                                <i class="align-middle" data-feather="message-square"></i>
+                            </div>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0"
+                            aria-labelledby="messagesDropdown">
+                            <div class="dropdown-menu-header">
+                                <div class="position-relative">
+                                    4 New Messages
+                                </div>
+                            </div>
+                            <div class="list-group">
+                                <a href="#" class="list-group-item">
+                                    <div class="row g-0 align-items-center">
+                                        <div class="col-2">
+                                            <img src="img/avatars/avatar-5.jpg" class="avatar img-fluid rounded-circle"
+                                                alt="Vanessa Tucker">
+                                        </div>
+                                        <div class="col-10 ps-2">
+                                            <div class="text-dark">Vanessa Tucker</div>
+                                            <div class="text-muted small mt-1">Nam pretium turpis et arcu. Duis arcu
+                                                tortor.</div>
+                                            <div class="text-muted small mt-1">15m ago</div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <div class="row g-0 align-items-center">
+                                        <div class="col-2">
+                                            <img src="img/avatars/avatar-2.jpg" class="avatar img-fluid rounded-circle"
+                                                alt="William Harris">
+                                        </div>
+                                        <div class="col-10 ps-2">
+                                            <div class="text-dark">William Harris</div>
+                                            <div class="text-muted small mt-1">Curabitur ligula sapien euismod vitae.
+                                            </div>
+                                            <div class="text-muted small mt-1">2h ago</div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <div class="row g-0 align-items-center">
+                                        <div class="col-2">
+                                            <img src="img/avatars/avatar-4.jpg" class="avatar img-fluid rounded-circle"
+                                                alt="Christina Mason">
+                                        </div>
+                                        <div class="col-10 ps-2">
+                                            <div class="text-dark">Christina Mason</div>
+                                            <div class="text-muted small mt-1">Pellentesque auctor neque nec urna.</div>
+                                            <div class="text-muted small mt-1">4h ago</div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <div class="row g-0 align-items-center">
+                                        <div class="col-2">
+                                            <img src="img/avatars/avatar-3.jpg" class="avatar img-fluid rounded-circle"
+                                                alt="Sharon Lessman">
+                                        </div>
+                                        <div class="col-10 ps-2">
+                                            <div class="text-dark">Sharon Lessman</div>
+                                            <div class="text-muted small mt-1">Aenean tellus metus, bibendum sed,
+                                                posuere ac, mattis non.</div>
+                                            <div class="text-muted small mt-1">5h ago</div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="dropdown-menu-footer">
+                                <a href="#" class="text-muted">Show all messages</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-icon dropdown-toggle d-inline-block d-sm-none" href="#" data-bs-toggle="dropdown">
+                            <i class="align-middle" data-feather="settings"></i>
+                        </a>
+
+                        <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown">
+                            <img src="<%= admin.profile %>" class="avatar img-fluid rounded me-1" alt="Charles Hall" />
+                            <span class="text-dark">
+                                <%= admin.fname %>
+                                    <%= admin.lname %>
+                            </span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end">
+                            <a class="dropdown-item" href="/profile"><i class="align-middle me-1"
+                                    data-feather="user"></i>
+                                <%= admin.fname %>
+                                    <%= admin.lname %>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/change-password"><i class="align-middle me-1"
+                                    data-feather="lock"></i>Change password</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/logout">Log out</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <main class="content">
+            <div class="container-fluid p-0">
+                <!-- Page Header -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h3 class="mb-0"><strong>Admin</strong> Management</h3>
+                            <a href="/addAdmin" class="btn btn-primary">
+                                <i data-feather="plus"></i> Add New Admin
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="search-input"
+                                placeholder="Search by name, email, phone or city..."
+                                style="border-radius: 0.25rem 0 0 0.25rem; border-right: none;">
+                            <button class="btn btn-outline-primary" type="button" id="search-btn">
+                                <i data-feather="search"></i> Search
+                            </button>
+                            <button class="btn btn-outline-secondary" type="button" id="clear-search"
+                                style="display: none; border-radius: 0 0.25rem 0.25rem 0;">
+                                <i data-feather="x"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Admin Table -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card"
+                            style="transition: all 0.3s ease; border: none; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th
+                                                    style="background-color: #f8f9fa; border-bottom: 2px solid #dee2e6; font-weight: 600; color: #495057; padding: 0.75rem 1rem;">
+                                                    ID</th>
+                                                <th
+                                                    style="background-color: #f8f9fa; border-bottom: 2px solid #dee2e6; font-weight: 600; color: #495057; padding: 0.75rem 1rem;">
+                                                    Profile</th>
+                                                <th
+                                                    style="background-color: #f8f9fa; border-bottom: 2px solid #dee2e6; font-weight: 600; color: #495057; padding: 0.75rem 1rem;">
+                                                    Name</th>
+                                                <th
+                                                    style="background-color: #f8f9fa; border-bottom: 2px solid #dee2e6; font-weight: 600; color: #495057; padding: 0.75rem 1rem;">
+                                                    Email</th>
+                                                <th
+                                                    style="background-color: #f8f9fa; border-bottom: 2px solid #dee2e6; font-weight: 600; color: #495057; padding: 0.75rem 1rem;">
+                                                    Phone</th>
+                                                <th
+                                                    style="background-color: #f8f9fa; border-bottom: 2px solid #dee2e6; font-weight: 600; color: #495057; padding: 0.75rem 1rem;">
+                                                    City</th>
+                                                <th
+                                                    style="background-color: #f8f9fa; border-bottom: 2px solid #dee2e6; font-weight: 600; color: #495057; padding: 0.75rem 1rem;">
+                                                    Gender</th>
+                                                <th
+                                                    style="background-color: #f8f9fa; border-bottom: 2px solid #dee2e6; font-weight: 600; color: #495057; padding: 0.75rem 1rem;">
+                                                    Hobbies</th>
+                                                <th
+                                                    style="background-color: #f8f9fa; border-bottom: 2px solid #dee2e6; font-weight: 600; color: #495057; padding: 0.75rem 1rem;">
+                                                    City</th>
+                                                <!-- <th
+                                                    style="background-color: #f8f9fa; border-bottom: 2px solid #dee2e6; font-weight: 600; color: #495057; padding: 0.75rem 1rem;">
+                                                    About</th> -->
+                                                <% if(admin.email==="sujalkidecha68@gmail.com" ) {%>
+                                                    <th class="text-center"
+                                                        style="background-color: #f8f9fa; border-bottom: 2px solid #dee2e6; font-weight: 600; color: #495057; padding: 0.75rem 1rem;">
+                                                        Actions</th>
+                                                    <%}%>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="admin-table-body">
+                                            <% allAdmin.map((subadmin , index)=>{ %>
+                                                <tr class="admin-item" style="transition: all 0.3s ease;">
+
+                                                    <td style="padding: 0.75rem 1rem; vertical-align: middle;">
+                                                        <%= index + 1 %>
+                                                    </td>
+                                                    <td style="padding: 0.75rem 1rem; vertical-align: middle;">
+                                                        <img src="/<%= subadmin.profile %>"
+                                                            style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 3px solid #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.2);"
+                                                            alt="John Doe">
+                                                    </td>
+                                                    <td style="padding: 0.75rem 1rem; vertical-align: middle;">
+                                                        <strong>
+                                                            <%= subadmin.fname %>
+                                                                <%= subadmin.lname %>
+                                                        </strong>
+                                                    </td>
+                                                    <td style="padding: 0.75rem 1rem; vertical-align: middle;">
+                                                        <%= subadmin.email %>
+                                                    </td>
+                                                    <td style="padding: 0.75rem 1rem; vertical-align: middle;">+91
+                                                        <%= subadmin.phone %>
+                                                    </td>
+                                                    <td style="padding: 0.75rem 1rem; vertical-align: middle;">
+                                                        <%= subadmin.city %>
+                                                    </td>
+                                                    <td style="padding: 0.75rem 1rem; vertical-align: middle;">
+                                                        <%= subadmin.gander %>
+                                                    </td>
+                                                    <td style="padding: 0.75rem 1rem; vertical-align: middle;">
+                                                        <span class="badge bg-info"
+                                                            style="font-size: 0.75em; padding: 0.8em 0.8em;">
+                                                            <%= subadmin.hobby%>
+                                                        </span>
+                                                    </td>
+                                                    <td style="padding: 0.75rem 1rem; vertical-align: middle;">
+                                                        <%= subadmin.city %>
+                                                    </td>
+                                                    <!-- <td style="padding: 0.75rem 1rem; vertical-align: middle;">
+                                                        <%= subadmin.about %>
+                                                    </td> -->
+
+
+                                                    <% if(admin.email=="sujalkidecha68@gmail.com" ) {%>
+                                                        <td class="action-cell">
+                                                            <div class="action-menu">
+                                                                <i class="ri-more-2-fill action-btn"></i>
+
+                                                                <div class="action-dropdown">
+                                                                    <button class="edit-btn">
+                                                                        <i class="ri-edit-2-line"></i> <a
+                                                                            href="/editAdmin/<%= subadmin.id %>?returnTo=/viewAdmin"
+                                                                            style="color: white;">Edit</a>
+                                                                    </button>
+
+                                                                    <button class="delete-btn">
+                                                                        <i class="ri-delete-bin-6-line"></i> <a
+                                                                            href="/deleteAdmin/<%= subadmin.id %>"
+                                                                            style="color: white;">Delete</a>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <% }%>
+
+                                                </tr>
+                                                <% }) %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Right Sidebar for Admin Details -->
+        <div id="sidebarOverlay"
+            style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9998; opacity: 0; visibility: hidden; transition: all 0.3s ease;">
+        </div>
+        <div id="adminSidebar"
+            style="position: fixed; top: 0; right: -400px; width: 400px; height: 100vh; background: #fff; box-shadow: -5px 0 15px rgba(0,0,0,0.1); z-index: 9999; transition: right 0.3s ease; overflow-y: auto;">
+            <div
+                style="background: linear-gradient(135deg, #2e313c 0%, #000000 100%); color: white; padding: 20px; position: sticky; top: 0; z-index: 10;">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0" style="color: #dee2e6;">Admin Details</h5>
+                    <button class="btn btn-sm btn-outline-light" onclick="closeSidebar()">
+                        <i data-feather="x"></i>
+                    </button>
+                </div>
+            </div>
+            <div style="padding: 20px;">
+                <div class="text-center mb-4">
+                    <img id="sidebarAvatar" src="/img/avatars/avatar.jpg"
+                        style="width: 100px; height: 100px; border-radius: 50%; border: 4px solid #fff; box-shadow: 0 4px 8px rgba(0,0,0,0.2);"
+                        alt="Admin">
+                    <h4 id="sidebarName" class="mt-3 mb-1">John Doe</h4>
+                    <span id="sidebarStatus" class="badge bg-success">Active</span>
+                    <p id="sidebarId" class="text-muted mt-2">#AD001</p>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 mb-3">
+                        <div style="border: 0; background-color: #f8f9fa; border-radius: 0.5rem;">
+                            <div style="padding: 0.75rem;">
+                                <h6 class="text-primary mb-2"><i data-feather="mail" class="feather-sm me-2"></i>Email
+                                </h6>
+                                <p id="sidebarEmail" class="mb-0">john.doe@example.com</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 mb-3">
+                        <div style="border: 0; background-color: #f8f9fa; border-radius: 0.5rem;">
+                            <div style="padding: 0.75rem;">
+                                <h6 class="text-primary mb-2"><i data-feather="phone" class="feather-sm me-2"></i>Phone
+                                </h6>
+                                <p id="sidebarPhone" class="mb-0">+91 9876543210</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 mb-3">
+                        <div style="border: 0; background-color: #f8f9fa; border-radius: 0.5rem;">
+                            <div style="padding: 0.75rem;">
+                                <h6 class="text-primary mb-2"><i data-feather="map-pin"
+                                        class="feather-sm me-2"></i>Location</h6>
+                                <p id="sidebarCity" class="mb-0">Mumbai, India</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 mb-3">
+                        <div style="border: 0; background-color: #f8f9fa; border-radius: 0.5rem;">
+                            <div style="padding: 0.75rem;">
+                                <h6 class="text-primary mb-2"><i data-feather="users" class="feather-sm me-2"></i>Gender
+                                </h6>
+                                <p id="sidebarGender" class="mb-0">Male</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 mb-3">
+                        <div style="border: 0; background-color: #f8f9fa; border-radius: 0.5rem;">
+                            <div style="padding: 0.75rem;">
+                                <h6 class="text-primary mb-2"><i data-feather="heart"
+                                        class="feather-sm me-2"></i>Hobbies</h6>
+                                <p id="sidebarHobbies" class="mb-0">Reading, Gaming</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 mb-4">
+                        <div style="border: 0; background-color: #f8f9fa; border-radius: 0.5rem;">
+                            <div style="padding: 0.75rem;">
+                                <h6 class="text-primary mb-2"><i data-feather="info" class="feather-sm me-2"></i>About
+                                </h6>
+                                <p id="sidebarAbout" class="mb-0">Experienced administrator with 5+ years of experience.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button class="btn btn-primary" onclick="editAdminFromSidebar()">
+                        <i data-feather="edit-2" class="feather-sm me-2"></i>Edit Admin
+                    </button>
+                    <button class="btn btn-outline-danger" onclick="deleteAdminFromSidebar()">
+                        <i data-feather="trash-2" class="feather-sm me-2"></i>Delete Admin
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                // Initialize Feather Icons
+                if (typeof feather !== 'undefined') {
+                    feather.replace();
+                }
+
+                // Search Functionality
+                const searchInput = document.getElementById('search-input');
+                const searchBtn = document.getElementById('search-btn');
+                const clearSearchBtn = document.getElementById('clear-search');
+                const adminTableBody = document.getElementById('admin-table-body');
+
+                function performSearch() {
+                    const searchTerm = searchInput.value.toLowerCase().trim();
+
+                    if (searchTerm) {
+                        clearSearchBtn.style.display = 'block';
+
+                        const rows = adminTableBody.querySelectorAll('tr');
+                        let hasResults = false;
+
+                        rows.forEach(row => {
+                            const rowText = row.textContent.toLowerCase();
+                            if (rowText.includes(searchTerm)) {
+                                row.style.display = '';
+                                hasResults = true;
+                            } else {
+                                row.style.display = 'none';
+                            }
+                        });
+
+                        if (!hasResults) {
+                            showNotification('No admins found matching your search', 'warning');
+                        }
+                    } else {
+                        clearSearch();
+                    }
+                }
+
+                function clearSearch() {
+                    searchInput.value = '';
+                    clearSearchBtn.style.display = 'none';
+
+                    const rows = adminTableBody.querySelectorAll('tr');
+                    rows.forEach(row => {
+                        row.style.display = '';
+                    });
+                }
+
+                searchInput.addEventListener('input', performSearch);
+                searchBtn.addEventListener('click', performSearch);
+                clearSearchBtn.addEventListener('click', clearSearch);
+
+                // Enter key for search
+                searchInput.addEventListener('keypress', function (e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+
+                // Close sidebar on overlay click
+                document.getElementById('sidebarOverlay').addEventListener('click', closeSidebar);
+
+                // Close sidebar on ESC key
+                document.addEventListener('keydown', function (e) {
+                    if (e.key === 'Escape') {
+                        closeSidebar();
+                    }
+                });
+
+                // Add hover effect to table rows
+                const tableRows = document.querySelectorAll('.admin-item');
+                tableRows.forEach(row => {
+                    row.addEventListener('mouseenter', function () {
+                        this.style.backgroundColor = 'rgba(0, 123, 255, 0.05)';
+                        this.style.transform = 'translateX(-5px)';
+                    });
+                    row.addEventListener('mouseleave', function () {
+                        this.style.backgroundColor = '';
+                        this.style.transform = 'translateX(0)';
+                    });
+                });
+            });
+
+
+
+
+        </script>
+
+        <%- include('footer') %>

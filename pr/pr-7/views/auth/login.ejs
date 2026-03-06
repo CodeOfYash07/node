@@ -1,126 +1,172 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-	<!-- Basic Page Info -->
-	<meta charset="utf-8">
-	<title>DeskApp - Bootstrap Admin Dashboard HTML Template</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Login</title>
 
-	<!-- Site favicon -->
-	<link rel="apple-touch-icon" sizes="180x180" href="vendors/images/apple-touch-icon.png">
-	<link rel="icon" type="image/png" sizes="32x32" href="vendors/images/favicon-32x32.png">
-	<link rel="icon" type="image/png" sizes="16x16" href="vendors/images/favicon-16x16.png">
+    <link href="/css/app.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Toastify CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 
-	<!-- Mobile Specific Metas -->
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <style>
+        .form-section {
+            display: none;
+        }
 
-	<!-- Google Font -->
-	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-	<!-- CSS -->
-	<link rel="stylesheet" type="text/css" href="vendors/styles/core.css">
-	<link rel="stylesheet" type="text/css" href="vendors/styles/icon-font.min.css">
-	<link rel="stylesheet" type="text/css" href="vendors/styles/style.css">
+        .active-section {
+            display: block;
+        }
 
-	<!-- Global site tag (gtag.js) - Google Analytics -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-119386393-1"></script>
-	<script>
-		window.dataLayer = window.dataLayer || [];
-		function gtag(){dataLayer.push(arguments);}
-		gtag('js', new Date());
+        .card {
+            border-radius: 12px;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        }
 
-		gtag('config', 'UA-119386393-1');
-	</script>
+        .btn-info {
+            background-color: #222e3c;
+            border-color: #222e3c;
+            color: white;
+        }
+    </style>
 </head>
-<body class="login-page">
-	<div class="login-header box-shadow">
-		<div class="container-fluid d-flex justify-content-between align-items-center">
-			<div class="brand-logo">
-				<a href="login.ejs">
-					<img src="vendors/images/deskapp-logo.svg" alt="">
-				</a>
-			</div>
-			<div class="login-menu">
-				<ul>
-					<li><a href="register.html">Register</a></li>
-				</ul>
-			</div>
-		</div>
-	</div>
-	<div class="login-wrap d-flex align-items-center flex-wrap justify-content-center">
-		<div class="container">
-			<div class="row align-items-center">
-				<div class="col-md-6 col-lg-7">
-					<img src="vendors/images/login-page-img.png" alt="">
-				</div>
-				<div class="col-md-6 col-lg-5">
-					<div class="login-box bg-white box-shadow border-radius-10">
-						<div class="login-title">
-							<h2 class="text-center text-primary">Login To DeskApp</h2>
-						</div>
-						<form method="post" action="/login">
-							<div class="select-role">
-								<div class="btn-group btn-group-toggle" data-toggle="buttons">
-									<label class="btn active">
-										<input type="radio" name="options" id="admin">
-										<div class="icon"><img src="vendors/images/briefcase.svg" class="svg" alt=""></div>
-										<span>I'm</span>
-										Manager
-									</label>
-									<label class="btn">
-										<input type="radio" name="options" id="user">
-										<div class="icon"><img src="vendors/images/person.svg" class="svg" alt=""></div>
-										<span>I'm</span>
-										Employee
-									</label>
-								</div>
-							</div>
-							<div class="input-group custom">
-								<input type="text" name="email" class="form-control form-control-lg" placeholder="Username">
-								<div class="input-group-append custom">
-									<span class="input-group-text"><i class="icon-copy dw dw-user1"></i></span>
-								</div>
-							</div>
-							<div class="input-group custom">
-								<input type="password" name="password" class="form-control form-control-lg" placeholder="**********">
-								<div class="input-group-append custom">
-									<span class="input-group-text"><i class="dw dw-padlock1"></i></span>
-								</div>
-							</div>
-							<div class="row pb-30">
-								<div class="col-6">
-									<div class="custom-control custom-checkbox">
-										<input type="checkbox" class="custom-control-input" id="customCheck1">
-										<label class="custom-control-label" for="customCheck1">login</label>
-									</div>
-								</div>
-								<div class="col-6">
-									<div class="forgot-password"><a href="/otp-page">Forgot Password</a></div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-sm-12">
-									<div class="input-group mb-0">
-										<!--
-											use code for form submit
-											<input class="btn btn-primary btn-lg btn-block" type="submit" value="Sign In">
-										-->
-										<button class="btn btn-primary btn-lg btn-block">Sign In</button>
-									</div>
-									<div class="font-16 weight-600 pt-10 pb-10 text-center" data-color="#707373">OR</div>
-									<div class="input-group mb-0">
-										<a class="btn btn-outline-primary btn-lg btn-block" href="register.html">Register To Create Account</a>
-									</div>
-								</div>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- js -->
-	<script src="vendors/scripts/core.js"></script>
-	<script src="vendors/scripts/script.min.js"></script>
-	<script src="vendors/scripts/process.js"></script>
-	<script src="vendors/scripts/layout-settings.js"></script>
+
+<body>
+    <main class="d-flex w-100">
+        <div class="container d-flex flex-column">
+            <div class="row vh-100">
+                <div class="col-sm-10 col-md-8 col-lg-6 col-xl-5 mx-auto d-table h-100">
+                    <div class="d-table-cell align-middle">
+
+                        <div class="text-center mt-4">
+                            <h1 class="h2" id="header-title">Welcome back!</h1>
+                            <p class="lead" id="header-subtitle">Sign in to your account</p>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="m-sm-3">
+
+                                    <div id="login-section" class="form-section active-section">
+                                        <form action="/login" method="POST">
+                                            <div class="mb-3">
+                                                <label class="form-label">Email</label>
+                                                <input class="form-control form-control-lg" type="email" name="email"
+                                                    placeholder="Enter your email" required />
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Password</label>
+                                                <input class="form-control form-control-lg" type="password"
+                                                    name="password" placeholder="Enter your password" required />
+                                            </div>
+
+                                            <div class="d-grid gap-2 mt-4">
+                                                <button type="submit" class="btn btn-lg btn-info">Login</button>
+                                                <button type="button" class="btn btn-lg btn-light"
+                                                    onclick="toggleForm('forgot')">Forgot Password?</button>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                    <div id="forgot-section" class="form-section">
+                                        <form action="/verify-email" method="POST">
+                                            <div class="mb-3">
+                                                <label class="form-label">Reset Email</label>
+                                                <input class="form-control form-control-lg" type="email" name="email"
+                                                    placeholder="Enter your registered email" required />
+                                                <small class="text-muted">Send Otp In This Email.</small>
+                                            </div>
+
+                                            <div class="d-grid gap-2 mt-4">
+                                                <button type="submit" class="btn btn-lg btn-primary">Send OTP</button>
+                                                <button type="button" class="btn btn-lg btn-light"
+                                                    onclick="toggleForm('login')">Back to Login</button>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toastify JS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    
+    <script>
+        function showToast(message, type = 'success') {
+            const colors = {
+                success: 'linear-gradient(to right, #00b09b, #96c93d)',
+                error: 'linear-gradient(to right, #ff5f6d, #ffc371)',
+                warning: 'linear-gradient(to right, #f093fb, #f5576c)',
+                info: 'linear-gradient(to right, #4facfe, #00f2fe)'
+            };
+            
+            Toastify({
+                text: message,
+                duration: 4000,
+                close: true,
+                gravity: "top",
+                position: "right",
+                stopOnFocus: true,
+                style: {
+                    background: colors[type] || colors.success,
+                    borderRadius: "8px",
+                    fontSize: "14px",
+                    fontWeight: "500"
+                }
+            }).showToast();
+        }
+        
+        <% if (typeof success !== 'undefined' && success.length > 0) { %>
+            showToast('<%= success %>', 'success');
+        <% } %>
+        
+        <% if (typeof error !== 'undefined' && error.length > 0) { %>
+            showToast('<%= error %>', 'error');
+        <% } %>
+        
+        <% if (typeof warning !== 'undefined' && warning.length > 0) { %>
+            showToast('<%= warning %>', 'warning');
+        <% } %>
+        
+        <% if (typeof info !== 'undefined' && info.length > 0) { %>
+            showToast('<%= info %>', 'info');
+        <% } %>
+    </script>
+
+    <script>
+        /**
+         * Ye function forms ke beech toggle karta hai
+         * @param {string} mode - 'forgot' ya 'login'
+         */
+        function toggleForm(mode) {
+            const loginSec = document.getElementById('login-section');
+            const forgotSec = document.getElementById('forgot-section');
+            const title = document.getElementById('header-title');
+            const subtitle = document.getElementById('header-subtitle');
+
+            if (mode === 'forgot') {
+                loginSec.classList.remove('active-section');
+                forgotSec.classList.add('active-section');
+                title.innerText = "Reset Password";
+                subtitle.innerText = "Enter email to receive OTP";
+            } else {
+                forgotSec.classList.remove('active-section');
+                loginSec.classList.add('active-section');
+                title.innerText = "Welcome back!";
+                subtitle.innerText = "Sign in to your account";
+            }
+        }
+    </script>
 </body>
+
 </html>

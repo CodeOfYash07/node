@@ -1,0 +1,406 @@
+<%- include('../header') %>
+
+    <style>
+        /* Amazon-style HORIZONTAL list layout */
+        .category-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .category-card {
+            background: #fff;
+            border-radius: 8px;
+            border: 1px solid #e6e6e6;
+            overflow: hidden;
+            display: flex;
+            gap: 18px;
+            padding: 14px;
+            align-items: flex-start;
+            transition: box-shadow .18s ease, transform .18s ease;
+        }
+
+        .category-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 28px rgba(2, 6, 23, 0.06);
+        }
+
+        .category-img-wrapper {
+            flex: 0 0 220px;
+            width: 220px;
+            height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid #f3f4f6;
+        }
+
+        .category-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .category-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .product-header {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .product-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin: 0;
+            color: #111827;
+        }
+
+        .product-sub {
+            color: #6b7280;
+            font-size: 13px;
+            margin: 4px 0;
+        }
+
+        .price-row {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+        }
+
+        .price-new {
+            color: #B12704;
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .price-old {
+            color: #6b7280;
+            text-decoration: line-through;
+            font-size: 14px;
+        }
+
+        .savings {
+            background: #eaf7ee;
+            color: #2e7d32;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+
+        .delivery {
+            font-size: 13px;
+            color: #111827;
+            margin-top: 6px;
+        }
+
+        .stock {
+            color: #b12704;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-top: 12px;
+        }
+
+        .btn-add-to-cart {
+            background: #ffd814;
+            border: 1px solid #f0c14b;
+            color: #111;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-weight: 700;
+        }
+
+        .btn-add-to-cart:hover {
+            filter: brightness(.98);
+        }
+
+        .action-menu.small-menu {
+            margin-left: auto;
+        }
+
+        .action-dropdown {
+            min-width: 140px;
+        }
+
+        /* mobile: stack horizontally to vertical */
+        @media (max-width: 780px) {
+            .category-card {
+                flex-direction: column;
+                padding: 12px;
+            }
+
+            .category-img-wrapper {
+                width: 100%;
+                height: 0;
+                padding-bottom: 56%;
+                position: relative;
+            }
+
+            .category-img-wrapper img {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+
+            .action-menu.small-menu {
+                margin-left: 0;
+            }
+        }
+    </style>
+
+    <div class="main">
+        <nav class="navbar navbar-expand navbar-light navbar-bg">
+            <a class="sidebar-toggle js-sidebar-toggle"><i class="hamburger align-self-center"></i></a>
+            <div class="navbar-collapse collapse">
+                <ul class="navbar-nav navbar-align">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown">
+                            <img src="/<%= admin.profile %>" class="avatar img-fluid rounded me-1"
+                                alt="<%= admin.fname %>">
+                            <span class="text-dark">
+                                <%= admin.fname %>
+                                    <%= admin.lname %>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <main class="content">
+            <div class="container-fluid p-0">
+                <div class="row mb-4">
+                    <div class="col-12 d-flex justify-content-between align-items-center mb-4">
+                        <h3 class="mb-0"><strong>Products</strong> Management</h3>
+                        <a href="/product/addProductPage" class="btn btn-primary"><i data-feather="plus"></i> Add New
+                            Product</a>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="search-input"
+                                placeholder="Search by product, category, sub-category or extra-category...">
+                            <button class="btn btn-outline-primary" id="search-btn"><i data-feather="search"></i>
+                                Search</button>
+                            <button class="btn btn-outline-secondary" id="clear-search" style="display:none"><i
+                                    data-feather="x"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="category-grid" id="category-grid">
+                            <% allProduct.forEach(prod=> { %>
+                                <div class="category-card"
+                                    data-product-name="<%= (prod.product_name||'').toLowerCase() %>"
+                                    data-category-name="<%= (prod.category_id?.category_name||'').toLowerCase() %>"
+                                    data-subcategory-name="<%= (prod.subcategory_id?.subCategory_name||'').toLowerCase() %>"
+                                    data-extra-name="<%= (prod.extraCategory_id?.extraCategory_name||'').toLowerCase() %>">
+
+                                    <div class="category-img-wrapper">
+                                        <% if (prod.product_img) { %>
+                                            <img src="/<%= prod.product_img %>" alt="<%= prod.product_name %>">
+                                            <% } else { %>
+                                                <div
+                                                    style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;font-size:48px">
+                                                    📦</div>
+                                                <% } %>
+                                    </div>
+
+                                    <div class="category-content">
+                                        <div>
+                                            <h3 class="product-title">
+                                                <%= prod.product_name %>
+                                            </h3>
+                                            <p class="product-sub">📂 <%= prod.category_id?.category_name || 'N/A' %> •
+                                                    <%= prod.subcategory_id?.subCategory_name || 'N/A' %> • <%=
+                                                            prod.extraCategory_id?.extraCategory_name || 'N/A' %>
+                                            </p>
+                                            <p class="product-desc">
+                                                <%= (prod.description || '' ).length> 160 ?
+                                                    (prod.description.substring(0,157) + '...') : (prod.description ||
+                                                    '') %>
+                                            </p>
+
+                                            <div class="price-row">
+                                                <span class="price-new">₹<%= Number(prod.new_price).toFixed(2) %></span>
+                                                <% if (prod.old_price) { %>
+                                                    <span class="price-old">₹<%= Number(prod.old_price).toFixed(2) %>
+                                                            </span>
+                                                    <% const disc=Math.round(100 - (prod.new_price / prod.old_price) *
+                                                        100); %>
+                                                        <span class="savings">
+                                                            <%= disc %>% off
+                                                        </span>
+                                                        <% } %>
+                                            </div>
+
+                                            <div class="delivery">FREE delivery — Get it between <strong>17 Feb - 16
+                                                    Mar</strong></div>
+                                            <div class="stock">In stock</div>
+
+                                        </div>
+
+                                        <div class="product-actions">
+                                            <button class="btn-add-to-cart">Add to cart</button>
+
+                                            <div style="display:flex; gap:8px; margin-left:auto; align-items:center;">
+                                                <a href="/product/editProduct/<%= prod._id %>"
+                                                    class="btn btn-sm btn-outline-secondary">Update</a>
+                                                <a href="/product/deleteProduct/<%= prod._id %>"
+                                                    class="btn btn-sm btn-outline-danger delete-btn">Delete</a>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                <% }) %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <script>
+            if (typeof feather !== 'undefined') feather.replace();
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            const clearSearchBtn = document.getElementById('clear-search');
+            const categoryGrid = document.getElementById('category-grid');
+
+            function performSearch() {
+                const searchTerm = searchInput.value.toLowerCase().trim();
+                if (searchTerm) {
+                    clearSearchBtn.style.display = 'block';
+                    const cards = categoryGrid.querySelectorAll('.category-card');
+                    let hasResults = false;
+                    cards.forEach(card => {
+                        const prod = card.dataset.productName || '';
+                        const cat = card.dataset.categoryName || '';
+                        const sub = card.dataset.subcategoryName || '';
+                        const ex = card.dataset.extraName || '';
+                        if (prod.includes(searchTerm) || cat.includes(searchTerm) || sub.includes(searchTerm) || ex.includes(searchTerm)) { card.style.display = ''; hasResults = true; } else card.style.display = 'none';
+                    });
+                    if (!hasResults && typeof showNotification === 'function') showNotification('No products found matching your search', 'warning');
+                } else clearSearch();
+            }
+
+            function clearSearch() { searchInput.value = ''; clearSearchBtn.style.display = 'none'; categoryGrid.querySelectorAll('.category-card').forEach(c => c.style.display = ''); }
+            searchInput.addEventListener('input', performSearch); searchBtn.addEventListener('click', performSearch); clearSearchBtn.addEventListener('click', clearSearch);
+
+            // Action-menu: click + keyboard support, aria updates and viewport-safe positioning
+            document.addEventListener('click', function (e) {
+                const actionBtn = e.target.closest('.action-btn');
+                const insideDropdown = e.target.closest('.action-dropdown');
+
+                if (actionBtn) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    const menu = actionBtn.closest('.action-menu');
+                    const dropdown = menu.querySelector('.action-dropdown');
+                    const isActive = !menu.classList.contains('active');
+
+                    // toggle
+                    if (isActive) menu.classList.add('active'); else menu.classList.remove('active');
+
+                    // update ARIA
+                    actionBtn.setAttribute('aria-expanded', isActive ? 'true' : 'false');
+                    dropdown.setAttribute('aria-hidden', isActive ? 'false' : 'true');
+
+                    // position dropdown within viewport
+                    if (isActive) {
+                        const rect = actionBtn.getBoundingClientRect();
+                        // ensure dropdown width is measured
+                        dropdown.style.left = '0px';
+                        dropdown.style.top = '0px';
+                        dropdown.style.position = 'fixed';
+                        const ddWidth = Math.min(dropdown.offsetWidth || 140, 300);
+                        let left = rect.right - ddWidth;
+                        if (left < 8) left = 8;
+                        const maxRight = document.documentElement.clientWidth - 8;
+                        if (left + ddWidth > maxRight) left = maxRight - ddWidth;
+                        dropdown.style.left = left + 'px';
+                        dropdown.style.top = (rect.bottom + 6) + 'px';
+                    } else {
+                        dropdown.style.left = null;
+                        dropdown.style.top = null;
+                    }
+
+                    // close other menus (reset ARIA)
+                    document.querySelectorAll('.action-menu').forEach(m => {
+                        if (m !== menu) {
+                            m.classList.remove('active');
+                            const btn = m.querySelector('.action-btn');
+                            const dd = m.querySelector('.action-dropdown');
+                            if (btn) btn.setAttribute('aria-expanded', 'false');
+                            if (dd) dd.setAttribute('aria-hidden', 'true');
+                            if (dd) { dd.style.top = null; dd.style.left = null; }
+                        }
+                    });
+
+                } else if (!insideDropdown) {
+                    // click outside — close all
+                    document.querySelectorAll('.action-menu').forEach(m => {
+                        m.classList.remove('active');
+                        const btn = m.querySelector('.action-btn');
+                        const dd = m.querySelector('.action-dropdown');
+                        if (btn) btn.setAttribute('aria-expanded', 'false');
+                        if (dd) dd.setAttribute('aria-hidden', 'true');
+                        if (dd) { dd.style.top = null; dd.style.left = null; }
+                    });
+                }
+            });
+
+            // keyboard: Enter/Space to toggle focused action button, Escape to close
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') {
+                    document.querySelectorAll('.action-menu').forEach(m => {
+                        m.classList.remove('active');
+                        const btn = m.querySelector('.action-btn');
+                        const dd = m.querySelector('.action-dropdown');
+                        if (btn) btn.setAttribute('aria-expanded', 'false');
+                        if (dd) dd.setAttribute('aria-hidden', 'true');
+                        if (dd) { dd.style.top = null; dd.style.left = null; }
+                    });
+                }
+
+                const focused = document.activeElement;
+                if ((e.key === 'Enter' || e.key === ' ') && focused && focused.classList && focused.classList.contains('action-btn')) {
+                    e.preventDefault();
+                    focused.click();
+                }
+            });
+
+            // confirm delete
+            document.addEventListener('click', function (e) {
+                const del = e.target.closest('.delete-btn');
+                if (del) {
+                    const ok = confirm('Are you sure you want to delete this Product?');
+                    if (!ok) { e.preventDefault(); e.stopPropagation(); }
+                }
+            });
+        </script>
+
+        <%- include('../footer') %>

@@ -3,12 +3,14 @@
   "version": "1.0.0",
   "main": "servar.js",
   "scripts": {
-    "start": "nodemon servar.js"
+    "start": "nodemon servar.js",
+    "dev": "nodemon servar.js"
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "connect-flash": "^0.1.1",
     "ejs": "^4.0.1",
     "express": "^5.2.1",
     "express-session": "^1.19.0",
@@ -17,6 +19,8 @@
     "nodemailer": "^7.0.12",
     "nodemon": "^3.1.11",
     "passport": "^0.7.0",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "sweetalert2": "^11.26.18",
+    "toastify-js": "^1.12.0"
   }
 }

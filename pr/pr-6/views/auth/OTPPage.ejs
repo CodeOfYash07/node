@@ -60,22 +60,6 @@
 							</button>
 						</form>
 
-						<!-- ================= OTP FORM ================= -->
-						<form id="otpForm" method="post" action="/otp-verify" style="display:none;">
-							<h6 class="mb-20">Enter OTP</h6>
-
-							<div class="input-group mb-3">
-								<span class="input-group-text bg-success text-white">
-									<i class="ti-lock"></i>
-								</span>
-								<input type="number" class="form-control form-control-lg"
-									name="adminOTP" placeholder="Enter OTP" required>
-							</div>
-
-							<button class="btn btn-success btn-block" type="submit">
-								Verify OTP
-							</button>
-						</form>
 
 					</div>
 				</div>
@@ -88,15 +72,7 @@
 	<script src="vendors/scripts/core.js"></script>
 	<script src="vendors/scripts/script.min.js"></script>
 
-	<script>
-		// IF OTP COOKIE EXISTS → SHOW OTP FORM
-		document.addEventListener("DOMContentLoaded", () => {
-			if (document.cookie.includes("OTP")) {
-				document.getElementById("emailForm").style.display = "none";
-				document.getElementById("otpForm").style.display = "block";
-			}
-		});
-	</script>
+	
 
 </body>
 

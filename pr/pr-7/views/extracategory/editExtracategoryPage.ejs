@@ -1,0 +1,182 @@
+<%- include('../header') %>
+
+    <style>
+        /* reuse add page styles for consistency */
+        .linkedin-form {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .li-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .li-row.full-width {
+            grid-template-columns: 1fr;
+        }
+
+        .li-field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .li-field label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1f1f1f;
+        }
+
+        .li-field input,
+        .li-field select,
+        .li-field textarea {
+            padding: 10px 12px;
+            border-radius: 6px;
+            border: 1px solid #cfd3d7;
+            font-size: 14px;
+            background: #fff;
+        }
+
+        .li-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 10px;
+        }
+
+        .li-submit {
+            background: #0a66c2;
+            color: #fff;
+            border: none;
+            padding: 10px 26px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+    </style>
+
+    <div class="main">
+        <nav class="navbar navbar-expand navbar-light navbar-bg">
+            <a class="sidebar-toggle js-sidebar-toggle">
+                <i class="hamburger align-self-center"></i>
+            </a>
+            <div class="navbar-collapse collapse">
+                <ul class="navbar-nav navbar-align">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown">
+                            <img src="/<%= admin.profile %>" class="avatar img-fluid rounded me-1"
+                                alt="<%= admin.fname %>" />
+                            <span class="text-dark">
+                                <%= admin.fname %>
+                                    <%= admin.lname %>
+                            </span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end">
+                            <a class="dropdown-item" href="/profile"><i class="align-middle me-1"
+                                    data-feather="user"></i>Profile</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/logout">Log out</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <main class="content">
+            <div class="container-fluid p-0">
+                <div class="mb-3">
+                    <h1 class="h3 d-inline align-middle">Edit Extra Category</h1>
+                    <a class="badge bg-dark text-white ms-2">Update extra category details</a>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 col-lg-8">
+                        <form action="/extraCategory/editExtraCategory/<%= extraCategoryData._id %>" method="post">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0">Edit Extra Category</h5>
+                                </div>
+                                <div class="card-body linkedin-form">
+
+                                    <div class="li-row full-width">
+                                        <div class="li-field">
+                                            <label>📂 Select Category</label>
+                                            <select id="category_id" name="category_id" required>
+                                                <option value="">-- Select a Category --</option>
+                                                <% allCategory.forEach((category)=> { %>
+                                                    <option value="<%= category._id %>"
+                                                        <%=(extraCategoryData.category_id &&
+                                                        extraCategoryData.category_id._id &&
+                                                        extraCategoryData.category_id._id.toString()===category._id.toString())
+                                                        ? 'selected' : '' %>><%= category.category_name %>
+                                                    </option>
+                                                    <% }); %>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="li-row full-width">
+                                        <div class="li-field">
+                                            <label>📂 Select Sub Category</label>
+                                            <select id="subcategory_id" name="subcategory_id" required>
+                                                <option value="">-- Select a Sub Category --</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="li-row full-width">
+                                        <div class="li-field">
+                                            <label>📝 Extra Category Name</label>
+                                            <input type="text" name="extraCategory_name"
+                                                value="<%= extraCategoryData.extraCategory_name %>"
+                                                placeholder="Enter extra category name" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="li-actions">
+                                        <button type="submit" class="li-submit">Update</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <script>
+            const allSubCategory = <%- JSON.stringify(allSubCategory || []) %>;
+            const initialCategoryId = "<%= extraCategoryData.category_id ? (extraCategoryData.category_id._id || extraCategoryData.category_id) : '' %>";
+            const initialSubcategoryId = "<%= extraCategoryData.subcategory_id ? (extraCategoryData.subcategory_id._id || extraCategoryData.subcategory_id) : '' %>";
+
+            function populateSubcategories(categoryId, selectedId) {
+                const subcategorySelect = document.getElementById('subcategory_id');
+                subcategorySelect.innerHTML = '<option value="">Select SubCategory</option>';
+                if (!categoryId) return;
+                const filtered = allSubCategory.filter(sub => String(sub.category_id) === String(categoryId));
+                filtered.forEach(sub => {
+                    const option = document.createElement('option');
+                    option.value = sub._id;
+                    option.textContent = sub.subCategory_name;
+                    if (selectedId && String(selectedId) === String(sub._id)) option.selected = true;
+                    subcategorySelect.appendChild(option);
+                });
+            }
+
+            document.addEventListener('DOMContentLoaded', function () {
+                // set initial subcategories
+                populateSubcategories(initialCategoryId, initialSubcategoryId);
+
+                // change listener
+                document.getElementById('category_id').addEventListener('change', function () {
+                    populateSubcategories(this.value);
+                });
+            });
+        </script>
+
+        <%- include('../footer') %>

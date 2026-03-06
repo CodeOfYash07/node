@@ -39,7 +39,7 @@ route.get('/logout', logout);
 // Forgot Password (OTP Flow)
 route.post('/verify-email', verifyEmail);
 route.get('/otp-page', OTPPage);
-route.post('/otp-verify', OTPVerify);
+route.post('/verify-email', OTPVerify);
 
 //Change-Password
 route.get('/changepasswordpage', changePasswordPage);

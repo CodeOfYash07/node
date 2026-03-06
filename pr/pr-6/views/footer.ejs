@@ -1,18 +1,53 @@
-<div class="footer-wrap pd-20 mb-20 card-box">
-				DeskApp - Bootstrap 4 Admin Template By <a href="https://github.com/dropways" target="_blank">Ankit Hingarajiya</a>
-			</div>
-		</div>
-	</div>
-	<!-- js -->
-	<script src="/vendors/scripts/core.js"></script>
-	<script src="/vendors/scripts/script.min.js"></script>
-	<script src="/vendors/scripts/process.js"></script>
-	<script src="/vendors/scripts/layout-settings.js"></script>
-	<script src="/src/plugins/jQuery-Knob-master/jquery.knob.min.js"></script>
-	<script src="/src/plugins/highcharts-6.0.7/code/highcharts.js"></script>
-	<script src="/src/plugins/highcharts-6.0.7/code/highcharts-more.js"></script>
-	<script src="/src/plugins/jvectormap/jquery-jvectormap-2.0.3.min.js"></script>
-	<script src="/src/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
-	<script src="/vendors/scripts/dashboard2.js"></script>
+<footer class="footer-wrap mt-5">
+            <div class="premium-card">
+                <div class="row align-items-center">
+                    <div class="col-md-6 text-center text-md-start">
+                        <p class="mb-0 text-muted">
+                            &copy; 2026 <span class="fw-bold text-primary">Flow Valley</span>. All rights reserved.
+                        </p>
+                    </div>
+                    <div class="col-md-6 text-center text-md-end mt-2 mt-md-0">
+                        <p class="mb-0 text-muted">
+                            Handcrafted with <i class="fa-solid fa-heart text-danger mx-1"></i> for better management.
+                        </p>
+        </div>
+    </div>
+</div>
+        </footer>
+        </div> <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script src="../vendors/scripts/core.js"></script>
+    <script src="../vendors/scripts/script.min.js"></script>
+    <script src="../vendors/scripts/process.js"></script>
+    <script src="../vendors/scripts/layout-settings.js"></script>
+
+<script>
+        $(document).ready(function() {
+            // Sidebar toggle logic (if needed)
+            $('.close-sidebar').on('click', function() {
+                $('.sidebar').toggleClass('active');
+            });
+
+            // Smooth Hover Effects for Table Rows
+            $('tr').hover(
+                function() { $(this).css('background-color', '#f1f5f9'); },
+                function() { $(this).css('background-color', 'transparent'); }
+            );
+});
+</script>
+
+    <style>
+        .footer-wrap {
+            padding: 20px 0;
+            border-top: 1px solid #e2e8f0;
+        }
+        .footer-wrap .premium-card {
+            padding: 20px 30px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+        }
+    </style>
 </body>
 </html>

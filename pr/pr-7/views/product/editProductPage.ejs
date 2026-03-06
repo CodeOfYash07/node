@@ -1,0 +1,261 @@
+<%- include('../header') %>
+
+    <style>
+        /* reuse add styles */
+        .linkedin-form {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .li-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .li-row.full-width {
+            grid-template-columns: 1fr;
+        }
+
+        .li-field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .li-field label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1f1f1f;
+        }
+
+        .li-field input,
+        .li-field select,
+        .li-field textarea {
+            padding: 10px 12px;
+            border-radius: 6px;
+            border: 1px solid #cfd3d7;
+            font-size: 14px;
+            background: #fff;
+        }
+
+        .li-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 10px;
+        }
+
+        .li-submit {
+            background: #0a66c2;
+            color: #fff;
+            border: none;
+            padding: 10px 26px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .upload-box {
+            border: 2px dashed #cfd3d7;
+            border-radius: 10px;
+            padding: 18px;
+            text-align: center;
+            cursor: pointer;
+            background: #fafbfc;
+        }
+    </style>
+
+    <div class="main">
+        <nav class="navbar navbar-expand navbar-light navbar-bg">
+            <a class="sidebar-toggle js-sidebar-toggle"><i class="hamburger align-self-center"></i></a>
+            <div class="navbar-collapse collapse">
+                <ul class="navbar-nav navbar-align">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown">
+                            <img src="/<%= admin.profile %>" class="avatar img-fluid rounded me-1"
+                                alt="<%= admin.fname %>" />
+                            <span class="text-dark">
+                                <%= admin.fname %>
+                                    <%= admin.lname %>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <main class="content">
+            <div class="container-fluid p-0">
+                <div class="mb-3">
+                    <h1 class="h3 d-inline align-middle">Edit Product</h1>
+                    <a class="badge bg-dark text-white ms-2">Update product data</a>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 col-lg-8">
+                        <form action="/product/editProduct/<%= productData._id %>" method="post"
+                            enctype="multipart/form-data">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0">Edit Product</h5>
+                                </div>
+                                <div class="card-body linkedin-form">
+
+                                    <div class="li-row full-width">
+                                        <div class="li-field">
+                                            <label>📂 Select Category</label>
+                                            <select id="category_id" name="category_id" required>
+                                                <option value="">-- Select a Category --</option>
+                                                <% allCategory.forEach((category)=> { %>
+                                                    <option value="<%= category._id %>" <%=(productData.category_id &&
+                                                        (productData.category_id._id ||
+                                                        productData.category_id).toString()===category._id.toString())
+                                                        ? 'selected' : '' %>><%= category.category_name %>
+                                                    </option>
+                                                    <% }); %>
+                                            </select>
+                                        </div>
+                                        <div class="li-field">
+                                            <label>📂 Select Sub Category</label>
+                                            <select id="subcategory_id" name="subcategory_id" required>
+                                                <option value="">-- Select a Sub Category --</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="li-row full-width">
+                                        <div class="li-field">
+                                            <label>📂 Select Extra Category</label>
+                                            <select id="extraCategory_id" name="extraCategory_id" required>
+                                                <option value="">-- Select an Extra Category --</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="li-row full-width">
+                                        <div class="li-field">
+                                            <label>📝 Product Name</label>
+                                            <input type="text" name="product_name"
+                                                value="<%= productData.product_name %>" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="li-row full-width">
+                                        <div class="li-field">
+                                            <label>📝 Description</label>
+                                            <textarea name="description"
+                                                rows="4"><%= productData.description || '' %></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="li-row">
+                                        <div class="li-field">
+                                            <label>Old Price</label>
+                                            <input type="number" name="old_price" step="0.01"
+                                                value="<%= productData.old_price || '' %>">
+                                        </div>
+                                        <div class="li-field">
+                                            <label>New Price</label>
+                                            <input type="number" name="new_price" step="0.01"
+                                                value="<%= productData.new_price %>" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="li-field">
+                                        <label>Product Image (leave empty to keep existing)</label>
+                                        <div class="upload-box" id="uploadBox">
+                                            <i class="ri-upload-cloud-2-line"></i>
+                                            <p><strong>Click to upload</strong> or drag & drop</p>
+                                            <span>PNG, JPG up to 5MB</span>
+                                            <input type="file" id="fileInput" name="product_img" hidden>
+                                        </div>
+                                        <% if (productData.product_img) { %>
+                                            <div style="margin-top:8px; display:flex; gap:8px; align-items:center;">
+                                                <img src="/<%= productData.product_img %>"
+                                                    style="height:60px; border-radius:6px; object-fit:cover;"
+                                                    alt="prod">
+                                                <small style="color:#666;">Current image</small>
+                                            </div>
+                                            <% } %>
+                                    </div>
+
+                                    <div class="li-actions">
+                                        <button type="submit" class="li-submit">Update</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <script>
+            const allSubCategory = <% - JSON.stringify(allSubCategory || []) %>;
+            const allExtraCategory = <% - JSON.stringify(allExtraCategory || []) %>;
+            const initialCategoryId = "<%= productData.category_id ? (productData.category_id._id || productData.category_id) : '' %>";
+            const initialSubcategoryId = "<%= productData.subcategory_id ? (productData.subcategory_id._id || productData.subcategory_id) : '' %>";
+            const initialExtraCategoryId = "<%= productData.extraCategory_id ? (productData.extraCategory_id._id || productData.extraCategory_id) : '' %>";
+
+            function populateSubcategories(categoryId, selectedId) {
+                const subcategorySelect = document.getElementById('subcategory_id');
+                subcategorySelect.innerHTML = '<option value="">Select SubCategory</option>';
+                if (!categoryId) return;
+                const filtered = allSubCategory.filter(sub => String(sub.category_id) === String(categoryId));
+                filtered.forEach(sub => {
+                    const option = document.createElement('option');
+                    option.value = sub._id;
+                    option.textContent = sub.subCategory_name;
+                    if (selectedId && String(selectedId) === String(sub._id)) option.selected = true;
+                    subcategorySelect.appendChild(option);
+                });
+            }
+
+            function populateExtraCategories(subcategoryId, selectedId) {
+                const extraSelect = document.getElementById('extraCategory_id');
+                extraSelect.innerHTML = '<option value="">-- Select an Extra Category --</option>';
+                if (!subcategoryId) return;
+                const filtered = allExtraCategory.filter(ex => String(ex.subcategory_id) === String(subcategoryId));
+                filtered.forEach(ex => {
+                    const option = document.createElement('option');
+                    option.value = ex._id;
+                    option.textContent = ex.extraCategory_name;
+                    if (selectedId && String(selectedId) === String(ex._id)) option.selected = true;
+                    extraSelect.appendChild(option);
+                });
+            }
+
+            document.addEventListener('DOMContentLoaded', function () {
+                // initial populate
+                populateSubcategories(initialCategoryId, initialSubcategoryId);
+                populateExtraCategories(initialSubcategoryId, initialExtraCategoryId);
+
+                document.getElementById('category_id').addEventListener('change', function () {
+                    populateSubcategories(this.value);
+                });
+
+                document.getElementById('subcategory_id').addEventListener('change', function () {
+                    populateExtraCategories(this.value);
+                });
+
+                // upload UI
+                const uploadBox = document.getElementById('uploadBox');
+                const fileInput = document.getElementById('fileInput');
+                if (uploadBox && fileInput) {
+                    uploadBox.addEventListener('click', () => fileInput.click());
+                    uploadBox.addEventListener('dragover', e => { e.preventDefault(); uploadBox.classList.add('dragging'); });
+                    uploadBox.addEventListener('dragleave', () => uploadBox.classList.remove('dragging'));
+                    uploadBox.addEventListener('drop', e => {
+                        e.preventDefault(); fileInput.files = e.dataTransfer.files;
+                        uploadBox.innerHTML = `\n                            <i class="ri-image-line"></i>\n                            <p>${fileInput.files[0].name}</p>\n                            <span>File selected</span>\n                        `;
+                        uploadBox.classList.remove('dragging');
+                    });
+                }
+            });
+        </script>
+
+        <%- include('../footer') %>
