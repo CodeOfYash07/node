@@ -1,0 +1,24 @@
+<%- include('../header') %>
+<div style="margin-left: 300px; margin-top: 100px;">
+<h2>All Products</h2>
+<a href="/addProductPage">Add new product</a>
+<table>
+    <thead><tr><th>Name</th><th>Category</th><th>Sub-category</th><th>Extra-cat</th><th>Price</th><th>Actions</th></tr></thead>
+    <tbody>
+    <% products.forEach(p=>{ %>
+        <tr>
+            <td><%= p.name %></td>
+            <td><%= p.category ? p.category.name : '' %></td>
+            <td><%= p.subcategory ? p.subcategory.name : '' %></td>
+            <td><%= p.extraCategory ? p.extraCategory.name : '' %></td>
+            <td><%= p.price %></td>
+            <td>
+                <a href="/editProduct/<%=p._id%>">Edit</a> |
+                <a href="/deleteProduct/<%=p._id%>" onclick="return confirm('Are you sure?')">Delete</a>
+            </td>
+        </tr>
+    <% }) %>
+    </tbody>
+</table>
+</div>
+<%- include('../footer') %>

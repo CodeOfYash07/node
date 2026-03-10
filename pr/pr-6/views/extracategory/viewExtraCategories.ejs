@@ -1,0 +1,22 @@
+<%- include('../header') %>
+<div style="margin-left: 300px; margin-top: 100px;">
+<h2>All Extra‑categories</h2>
+<a href="/addExtraCategoryPage">Add new extra‑category</a>
+<table>
+    <thead><tr><th>Name</th><th>Category</th><th>Sub‑category</th><th>Actions</th></tr></thead>
+    <tbody>
+    <% extras.forEach(e=>{ %>
+        <tr>
+            <td><%= e.name %></td>
+            <td><%= e.category ? e.category.name : '' %></td>
+            <td><%= e.subcategory ? e.subcategory.name : '' %></td>
+            <td>
+                <a href="/editExtraCategory/<%=e._id%>">Edit</a> |
+                <a href="/deleteExtraCategory/<%=e._id%>" onclick="return confirm('Are you sure?')">Delete</a>
+            </td>
+        </tr>
+    <% }) %>
+    </tbody>
+</table>
+</div>
+<%- include('../footer') %>

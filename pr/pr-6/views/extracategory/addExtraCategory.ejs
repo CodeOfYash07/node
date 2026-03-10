@@ -1,0 +1,37 @@
+<%- include('../header') %>
+<h2>Add Extra‑category</h2>
+<form action="/addExtraCategory" method="post" style="margin-left: 300px; margin-top: 100px;">
+    <div>
+        <label>Name</label>
+        <input type="text" name="name" required />
+    </div>
+    <div>
+        <label>Category</label>
+        <select name="category" id="categorySelect" required>
+            <% categories.forEach(c=>{ %>
+                <option value="<%=c._id%>"><%=c.name%></option>
+            <% }) %>
+        </select>
+    </div>
+    <div>
+        <label>Sub‑category</label>
+        <select name="subcategory" id="subcatSelect" required>
+            <% subcategories.forEach(s=>{ %>
+                <option value="<%=s._id%>" data-cat="<%=s.category%>"><%=s.name%></option>
+            <% }) %>
+        </select>
+    </div>
+    <button type="submit">Save</button>
+</form>
+<script>
+// rudimentary filtering of subcategories when category changes
+const categorySelect = document.getElementById('categorySelect');
+const subcatSelect = document.getElementById('subcatSelect');
+categorySelect.addEventListener('change', () => {
+    const cat = categorySelect.value;
+    for (let opt of subcatSelect.options) {
+        opt.style.display = opt.getAttribute('data-cat') === cat ? '' : 'none';
+    }
+});
+</script>
+<%- include('../footer') %>

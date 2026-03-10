@@ -157,9 +157,9 @@
 				<div class="dropdown">
 					<a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown">
 						<span class="user-icon">
-							<img src="/vendors/images/photo1.jpg" alt="">
+							<img src="<%= admin && admin.profileimg ? '/' + admin.profileimg : '/vendors/images/photo1.jpg' %>" alt="">
 						</span>
-						<span class="user-name">Ross C. Lopez</span>
+						<span class="user-name"><%= admin ? admin.fname + ' ' + admin.lname : 'Guest' %></span>
 					</a>
 					<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
 						<a class="dropdown-item" href="/profile"><i class="dw dw-user1"></i> Profile</a>
@@ -293,6 +293,21 @@
 							<li><a href="/addAdminPage">Add Admin</a></li>
 						</ul>
 					</li>
+                    <li class="dropdown">
+                        <a href="javascript:;" class="dropdown-toggle">
+                            <span class="micon dw dw-list"></span><span class="mtext">Catalog</span>
+                        </a>
+                        <ul class="submenu">
+                            <li><a href="/viewCategories">View Categories</a></li>
+                            <li><a href="/addCategoryPage">Add Category</a></li>
+                            <li><a href="/viewSubCategories">View Sub-Categories</a></li>
+                            <li><a href="/addSubCategoryPage">Add Sub-Category</a></li>
+                            <li><a href="/viewExtraCategories">View Extra Categories</a></li>
+                            <li><a href="/addExtraCategoryPage">Add Extra Category</a></li>
+                            <li><a href="/viewProducts">View Products</a></li>
+                            <li><a href="/addProductPage">Add Product</a></li>
+                        </ul>
+                    </li>
 				</ul>
 			</div>
 		</div>

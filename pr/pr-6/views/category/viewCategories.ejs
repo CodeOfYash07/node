@@ -1,0 +1,22 @@
+<%- include('../header') %>
+<div class="main-container">
+  <div class="xs-pd-20-10 pd-ltr-20">
+    <h2>All Categories</h2>
+    <a href="/addCategoryPage" class="btn btn-success mb-3">Add new category</a>
+    <table class="table table-bordered">
+      <thead><tr><th>Name</th><th>Actions</th></tr></thead>
+      <tbody>
+      <% categories.forEach(cat=>{ %>
+          <tr>
+              <td><%= cat.name %></td>
+              <td>
+                  <a href="/editCategory/<%=cat._id%>" class="btn btn-sm btn-warning">Edit</a>
+                  <a href="/deleteCategory/<%=cat._id%>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
+              </td>
+          </tr>
+      <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<%- include('../footer') %>

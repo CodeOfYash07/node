@@ -1,0 +1,22 @@
+<%- include('../header') %>
+<div class="main-container">
+  <div class="xs-pd-20-10 pd-ltr-20">
+    <h2>Edit Sub‑category</h2>
+    <form action="/editSubCategory/<%= subcategory._id %>" method="post">
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" name="name" class="form-control" value="<%= subcategory.name %>" required />
+      </div>
+      <div class="form-group">
+        <label>Category</label>
+        <select name="category" class="form-control" required>
+            <% categories.forEach(c=>{ %>
+                <option value="<%=c._id%>" <%= c._id.toString()===subcategory.category.toString() ? 'selected' : '' %>><%=c.name%></option>
+            <% }) %>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+  </div>
+</div>
+<%- include('../footer') %>

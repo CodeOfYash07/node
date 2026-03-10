@@ -1,0 +1,53 @@
+<%- include('../header') %>
+<h2>Add Product</h2>
+<form action="/addProduct" method="post" enctype="multipart/form-data" style="margin-left: 300px; margin-top: 100px;">
+    <div><label>Name</label><input type="text" name="name" required /></div>
+    <div>
+        <label>Category</label>
+        <select name="category" id="catSel">
+            <option value="">-- choose --</option>
+            <% categories.forEach(c=>{ %>
+                <option value="<%=c._id%>"><%=c.name%></option>
+            <% }) %>
+        </select>
+    </div>
+    <div>
+        <label>Sub‑category</label>
+        <select name="subcategory" id="subSel">
+            <option value="">-- choose --</option>
+            <% subcategories.forEach(s=>{ %>
+                <option value="<%=s._id%>" data-cat="<%=s.category%>"><%=s.name%></option>
+            <% }) %>
+        </select>
+    </div>
+    <div>
+        <label>Extra‑category</label>
+        <select name="extraCategory" id="extraSel">
+            <option value="">-- choose --</option>
+            <% extras.forEach(e=>{ %>
+                <option value="<%=e._id%>" data-sub="<%=e.subcategory%>"><%=e.name%></option>
+            <% }) %>
+        </select>
+    </div>
+    <div><label>Price</label><input type="number" name="price" step="0.01" /></div>
+    <div><label>Description</label><textarea name="description"></textarea></div>
+    <div><label>Images</label><input type="file" name="images" multiple /></div>
+    <button type="submit">Save</button>
+</form>
+<script>
+const catSel = document.getElementById('catSel');
+const subSel = document.getElementById('subSel');
+const extraSel = document.getElementById('extraSel');
+catSel.addEventListener('change', ()=>{
+    const cat = catSel.value;
+    for (let o of subSel.options) o.style.display = o.getAttribute('data-cat')===cat ? '' : 'none';
+    // reset following selects
+    subSel.value=''; extraSel.value='';
+});
+subSel.addEventListener('change', ()=>{
+    const sub = subSel.value;
+    for (let o of extraSel.options) o.style.display = o.getAttribute('data-sub')===sub ? '' : 'none';
+    extraSel.value='';
+});
+</script>
+<%- include('../footer') %>

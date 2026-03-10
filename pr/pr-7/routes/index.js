@@ -29,6 +29,7 @@ const upload = multer({ storage: myStorage });
 route.get('/', loginPage);
 route.post('/login', passport.authenticate('local', {
     failureRedirect: '/',
+    successRedirect: '/dashboard',
     failureFlash: true
 }));
 

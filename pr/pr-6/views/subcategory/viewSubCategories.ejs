@@ -1,0 +1,23 @@
+<%- include('../header') %>
+<div class="main-container">
+  <div class="xs-pd-20-10 pd-ltr-20">
+    <h2>All Sub‑categories</h2>
+    <a href="/addSubCategoryPage" class="btn btn-success mb-3">Add new sub‑category</a>
+    <table class="table table-bordered">
+      <thead><tr><th>Name</th><th>Category</th><th>Actions</th></tr></thead>
+      <tbody>
+      <% subcategories.forEach(s=>{ %>
+          <tr>
+              <td><%= s.name %></td>
+              <td><%= s.category ? s.category.name : '' %></td>
+              <td>
+                  <a href="/editSubCategory/<%=s._id%>" class="btn btn-sm btn-warning">Edit</a>
+                  <a href="/deleteSubCategory/<%=s._id%>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
+              </td>
+          </tr>
+      <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<%- include('../footer') %>

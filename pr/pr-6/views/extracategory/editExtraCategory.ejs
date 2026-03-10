@@ -1,0 +1,39 @@
+<%- include('../header') %>
+<h2>Edit Extra‑category</h2>
+<form action="/editExtraCategory/<%= extra._id %>" method="post">
+    <div>
+        <label>Name</label>
+        <input type="text" name="name" value="<%= extra.name %>" required />
+    </div>
+    <div>
+        <label>Category</label>
+        <select name="category" id="categorySelect" required>
+            <% categories.forEach(c=>{ %>
+                <option value="<%=c._id%>" <%= c._id.toString()===extra.category.toString() ? 'selected' : '' %>><%=c.name%></option>
+            <% }) %>
+        </select>
+    </div>
+    <div>
+        <label>Sub‑category</label>
+        <select name="subcategory" id="subcatSelect" required>
+            <% subcategories.forEach(s=>{ %>
+                <option value="<%=s._id%>" data-cat="<%=s.category%>" <%= s._id.toString()===extra.subcategory.toString() ? 'selected' : '' %>><%=s.name%></option>
+            <% }) %>
+        </select>
+    </div>
+    <button type="submit">Update</button>
+</form>
+<script>
+const categorySelect = document.getElementById('categorySelect');
+const subcatSelect = document.getElementById('subcatSelect');
+function filter() {
+    const cat = categorySelect.value;
+    for (let opt of subcatSelect.options) {
+        opt.style.display = opt.getAttribute('data-cat') === cat ? '' : 'none';
+    }
+}
+categorySelect.addEventListener('change', filter);
+// initial filter
+filter();
+</script>
+<%- include('../footer') %>

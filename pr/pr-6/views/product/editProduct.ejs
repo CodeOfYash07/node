@@ -1,0 +1,58 @@
+<%- include('../header') %>
+<h2>Edit Product</h2>
+<form action="/editProduct/<%= product._id %>" method="post" enctype="multipart/form-data">
+    <div><label>Name</label><input type="text" name="name" value="<%= product.name %>" required /></div>
+    <div>
+        <label>Category</label>
+        <select name="category" id="catSel">
+            <option value="">-- choose --</option>
+            <% categories.forEach(c=>{ %>
+                <option value="<%=c._id%>" <%= product.category && product.category.toString()===c._id.toString() ? 'selected' : '' %>><%=c.name%></option>
+            <% }) %>
+        </select>
+    </div>
+    <div>
+        <label>Sub‑category</label>
+        <select name="subcategory" id="subSel">
+            <option value="">-- choose --</option>
+            <% subcategories.forEach(s=>{ %>
+                <option value="<%=s._id%>" data-cat="<%=s.category%>" <%= product.subcategory && product.subcategory.toString()===s._id.toString() ? 'selected' : '' %>><%=s.name%></option>
+            <% }) %>
+        </select>
+    </div>
+    <div>
+        <label>Extra‑category</label>
+        <select name="extraCategory" id="extraSel">
+            <option value="">-- choose --</option>
+            <% extras.forEach(e=>{ %>
+                <option value="<%=e._id%>" data-sub="<%=e.subcategory%>" <%= product.extraCategory && product.extraCategory.toString()===e._id.toString() ? 'selected' : '' %>><%=e.name%></option>
+            <% }) %>
+        </select>
+    </div>
+    <div><label>Price</label><input type="number" name="price" step="0.01" value="<%= product.price %>" /></div>
+    <div><label>Description</label><textarea name="description"><%= product.description %></textarea></div>
+    <div><label>Images (new files will replace old ones)</label><input type="file" name="images" multiple /></div>
+    <button type="submit">Update</button>
+</form>
+<script>
+const catSel = document.getElementById('catSel');
+const subSel = document.getElementById('subSel');
+const extraSel = document.getElementById('extraSel');
+catSel.addEventListener('change', ()=>{
+    const cat = catSel.value;
+    for (let o of subSel.options) o.style.display = o.getAttribute('data-cat')===cat ? '' : 'none';
+    subSel.value=''; extraSel.value='';
+});
+subSel.addEventListener('change', ()=>{
+    const sub = subSel.value;
+    for (let o of extraSel.options) o.style.display = o.getAttribute('data-sub')===sub ? '' : 'none';
+    extraSel.value='';
+});
+// initial filter based on existing values
+(function(){
+    const evt = new Event('change');
+    catSel.dispatchEvent(evt);
+    subSel.dispatchEvent(evt);
+})();
+</script>
+<%- include('../footer') %>

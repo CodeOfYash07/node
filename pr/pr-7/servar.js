@@ -21,8 +21,8 @@ app.set('views', path.join(__dirname, 'views'));
 // ============================================================
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use(express.static(path.join(__dirname, "public")));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // ============================================================
 // Session Configuration
@@ -66,8 +66,7 @@ app.use('/', require('./routes/'));
 // 404 Error Handler
 // ============================================================
 app.use((req, res) => {
-    const filePath = path.join(__dirname, 'views', 'extra', '404.html');
-    res.status(404).sendFile(filePath);
+    res.status(404).render('404');
 });
 
 // ============================================================
@@ -85,8 +84,7 @@ app.use((err, req, res, next) => {
         fs.appendFile('server.log', `[${new Date().toISOString()}] ${message}\n`, () => {});
     }
     
-    const filePath = path.join(__dirname, 'views', 'extra', '500.html');
-    res.status(statusCode).sendFile(filePath);
+    res.status(statusCode).render('500');
 });
 
 // ============================================================
